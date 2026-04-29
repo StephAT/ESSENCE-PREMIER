@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CRM — ESSENCE PREMIER</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --blue: #0057a8; --blue-dark: #003d7a; --blue-light: #e8f1fb;
+    --teal: #00a896; --teal-light: #e0f5f3;
+    --white: #ffffff; --off-white: #f7f9fc;
+    --gray-1: #f0f4f8; --gray-2: #e2e8f0; --gray-3: #94a3b8;
+    --text: #0f1f3d; --text-muted: #64748b; --border: #e2e8f0;
+    --shadow: 0 4px 24px rgba(0,87,168,0.08);
+    --green: #16a34a; --red: #dc2626;
+  }
+  body { font-family: 'DM Sans', sans-serif; background: var(--off-white); color: var(--text); }
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 999;
+    background: rgba(255,255,255,0.97); border-bottom: 1px solid var(--border); backdrop-filter: blur(12px);
+  }
+  .nav-inner { max-width: 1280px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 0 40px; height: 68px; }
+  .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .nav-logo-icon { width: 36px; height: 36px; background: var(--blue); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+  .nav-logo-text { font-family: 'DM Serif Display', serif; font-size: 20px; color: var(--blue); }
+  .nav-logo-text span { color: var(--teal); }
+  .nav-links { display: flex; gap: 4px; list-style: none; }
+  .nav-links a { font-size: 13px; font-weight: 500; color: var(--text-muted); text-decoration: none; padding: 7px 12px; border-radius: 7px; transition: all 0.2s; }
+  .nav-links a:hover, .nav-links a.active { background: var(--blue-light); color: var(--blue); }
+  .nav-right { display: flex; align-items: center; gap: 12px; }
+  .nav-user { font-size: 13px; font-weight: 600; color: var(--blue); }
+  .btn-logout { padding: 7px 16px; border: 1.5px solid var(--gray-2); color: var(--text-muted); font-size: 13px; font-weight: 500; border-radius: 7px; cursor: pointer; background: white; font-family: 'DM Sans', sans-serif; transition: all 0.2s; }
+  .btn-logout:hover { border-color: var(--red); color: var(--red); }
+  main { max-width: 1200px; margin: 0 auto; padding: 100px 40px 60px; }
+  .page-header { margin-bottom: 28px; display: flex; justify-content: space-between; align-items: flex-start; }
+  .page-header h1 { font-family: 'DM Serif Display', serif; font-size: 32px; }
+  .page-header p { color: var(--text-muted); font-size: 14px; margin-top: 4px; }
+  .btn { padding: 10px 20px; border-radius: 9px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; border: none; transition: all 0.2s; }
+  .btn-primary { background: var(--blue); color: white; }
+  .btn-primary:hover { background: var(--blue-dark); }
+  .btn-ghost { background: white; color: var(--blue); border: 1.5px solid var(--blue); }
+  .btn-ghost:hover { background: var(--blue-light); }
+  .btn-sm { padding: 6px 14px; font-size: 13px; }
+  .btn-danger { background: #fee2e2; color: var(--red); }
+  .btn-danger:hover { background: #fecaca; }
+  .stats-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin-bottom: 28px; }
+  .stat-mini { background: white; border-radius: 12px; padding: 18px 20px; border: 1px solid var(--border); }
+  .stat-mini-label { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+  .stat-mini-value { font-size: 24px; font-weight: 700; color: var(--text); margin-top: 6px; }
+  .layout { display: grid; grid-template-columns: 320px 1fr; gap: 24px; }
+  .card { background: white; border-radius: 14px; border: 1px solid var(--border); box-shadow: var(--shadow); }
+  .card-header { padding: 18px 20px; border-bottom: 1px solid var(--border); }
+  .card-header h2 { font-size: 15px; font-weight: 600; }
+  .contacts-list { max-height: 600px; overflow-y: auto; }
+  .contact-item { padding: 14px 20px; border-bottom: 1px solid var(--gray-1); cursor: pointer; transition: background 0.15s; display: flex; align-items: center; gap: 12px; }
+  .contact-item:hover { background: var(--off-white); }
+  .contact-item.selected { background: var(--blue-light); border-left: 3px solid var(--blue); }
+  .contact-avatar { width: 38px; height: 38px; border-radius: 50%; background: var(--blue-light); display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 700; color: var(--blue); flex-shrink: 0; }
+  .contact-name { font-size: 14px; font-weight: 600; color: var(--text); }
+  .contact-org { font-size: 12px; color: var(--text-muted); margin-top: 1px; }
+  .type-badge { display: inline-flex; padding: 2px 8px; border-radius: 20px; font-size: 10px; font-weight: 600; text-transform: uppercase; margin-top: 3px; }
+  .type-client { background: #dbeafe; color: #1e40af; }
+  .type-prospect { background: #fef3c7; color: #92400e; }
+  .type-partner { background: #dcfce7; color: #166534; }
+  .type-supplier { background: #ede9fe; color: #5b21b6; }
+  .detail-area { display: flex; flex-direction: column; gap: 20px; }
+  .empty-state { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 80px 40px; color: var(--text-muted); text-align: center; }
+  .empty-state-icon { font-size: 48px; margin-bottom: 16px; }
+  .empty-state h3 { font-size: 18px; color: var(--text); margin-bottom: 8px; }
+  .detail-card { background: white; border-radius: 14px; border: 1px solid var(--border); box-shadow: var(--shadow); padding: 24px; }
+  .detail-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
+  .detail-name { font-family: 'DM Serif Display', serif; font-size: 22px; }
+  .detail-title { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
+  .detail-actions { display: flex; gap: 8px; }
+  .info-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .info-item-label { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 3px; }
+  .info-item-value { font-size: 14px; color: var(--text); }
+  .interactions-header { display: flex; justify-content: space-between; align-items: center; padding: 18px 24px; border-bottom: 1px solid var(--border); }
+  .interactions-header h3 { font-size: 15px; font-weight: 600; }
+  .interactions-list { padding: 8px 0; max-height: 320px; overflow-y: auto; }
+  .interaction-item { padding: 14px 24px; border-bottom: 1px solid var(--gray-1); }
+  .interaction-item:last-child { border-bottom: none; }
+  .interaction-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+  .interaction-subject { font-size: 14px; font-weight: 600; }
+  .interaction-date { font-size: 12px; color: var(--text-muted); }
+  .interaction-type { display: inline-flex; padding: 2px 8px; border-radius: 20px; font-size: 10px; font-weight: 600; background: var(--gray-1); color: var(--text-muted); margin-bottom: 6px; }
+  .interaction-notes { font-size: 13px; color: var(--text-muted); }
+  .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; }
+  .modal.open { display: flex; }
+  .modal-box { background: white; border-radius: 16px; padding: 32px; width: 520px; max-width: 95vw; max-height: 90vh; overflow-y: auto; box-shadow: 0 24px 80px rgba(0,0,0,0.2); }
+  .modal-box h2 { font-family: 'DM Serif Display', serif; font-size: 22px; margin-bottom: 24px; }
+  .form-group { margin-bottom: 16px; }
+  .form-group label { display: block; font-size: 12px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 6px; }
+  .form-control { width: 100%; padding: 10px 14px; border: 1.5px solid var(--border); border-radius: 9px; font-size: 14px; font-family: 'DM Sans', sans-serif; color: var(--text); transition: border-color 0.2s; }
+  .form-control:focus { outline: none; border-color: var(--blue); }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 24px; }
+  .search-bar { padding: 12px 20px; border-bottom: 1px solid var(--border); }
+  .search-input { width: 100%; padding: 8px 14px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 13px; font-family: 'DM Sans', sans-serif; }
+  .search-input:focus { outline: none; border-color: var(--blue); }
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: 1fr; }
+    .stats-row { grid-template-columns: repeat(3, 1fr); }
+    .nav-links { display: none; }
+    main { padding: 90px 16px 40px; }
+    .nav-inner { padding: 0 16px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-icon">⚕</div>
+      <span class="nav-logo-text">ESSENCE <span>PREMIER</span></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="catalog.html">Products</a></li>
+      <li><a href="dashboard.html">Dashboard</a></li>
+      <li><a href="crm.html" class="active">CRM</a></li>
+      <li><a href="finance.html">Finance</a></li>
+      <li><a href="supply_chain.html">Supply Chain</a></li>
+    </ul>
+    <div class="nav-right">
+      <span class="nav-user" id="navUserName"></span>
+      <button class="btn-logout" onclick="AuthAPI.logout()">Sign Out</button>
+    </div>
+  </div>
+</nav>
+
+<main>
+  <div class="page-header">
+    <div>
+      <h1>Customer Relationship Management</h1>
+      <p>Manage your contacts, track interactions, and grow relationships.</p>
+    </div>
+    <button class="btn btn-primary" onclick="openContactModal()">+ Add Contact</button>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-mini"><div class="stat-mini-label">Total Contacts</div><div class="stat-mini-value" id="statTotal">—</div></div>
+    <div class="stat-mini"><div class="stat-mini-label">Clients</div><div class="stat-mini-value" id="statClients">—</div></div>
+    <div class="stat-mini"><div class="stat-mini-label">Prospects</div><div class="stat-mini-value" id="statProspects">—</div></div>
+    <div class="stat-mini"><div class="stat-mini-label">Partners</div><div class="stat-mini-value" id="statPartners">—</div></div>
+    <div class="stat-mini"><div class="stat-mini-label">Interactions</div><div class="stat-mini-value" id="statInteractions">—</div></div>
+  </div>
+
+  <div class="layout">
+    <div class="card">
+      <div class="card-header">
+        <h2>Contacts</h2>
+      </div>
+      <div class="search-bar">
+        <input class="search-input" type="text" id="searchInput" placeholder="Search by name or organization..." oninput="debounceSearch()">
+      </div>
+      <div class="contacts-list" id="contactsList">
+        <div style="padding:40px;text-align:center;color:var(--text-muted)">Loading contacts…</div>
+      </div>
+    </div>
+
+    <div class="detail-area" id="detailArea">
+      <div class="card">
+        <div class="empty-state">
+          <div class="empty-state-icon">👤</div>
+          <h3>Select a contact</h3>
+          <p style="font-size:14px">Choose a contact from the list to view details and interaction history.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- Add Contact Modal -->
+<div class="modal" id="contactModal">
+  <div class="modal-box">
+    <h2 id="modalTitle">Add New Contact</h2>
+    <div class="form-row">
+      <div class="form-group"><label>First Name *</label><input class="form-control" id="fFirstName" placeholder="Kwame"></div>
+      <div class="form-group"><label>Last Name *</label><input class="form-control" id="fLastName" placeholder="Mensah"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Title</label><input class="form-control" id="fTitle" placeholder="Procurement Manager"></div>
+      <div class="form-group"><label>Contact Type *</label>
+        <select class="form-control" id="fType">
+          <option value="client">Client</option>
+          <option value="prospect">Prospect</option>
+          <option value="partner">Partner</option>
+          <option value="supplier">Supplier</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group"><label>Organization *</label><input class="form-control" id="fOrganization" placeholder="Korle Bu Teaching Hospital"></div>
+    <div class="form-row">
+      <div class="form-group"><label>Email</label><input class="form-control" id="fEmail" type="email" placeholder="kwame@hospital.gh"></div>
+      <div class="form-group"><label>Phone</label><input class="form-control" id="fPhone" placeholder="+233-24-000-0000"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Region</label><input class="form-control" id="fRegion" placeholder="Greater Accra"></div>
+      <div class="form-group"><label>Country</label><input class="form-control" id="fCountry" value="Ghana"></div>
+    </div>
+    <div class="form-group"><label>Notes</label><textarea class="form-control" id="fNotes" rows="2" placeholder="Additional notes about this contact…"></textarea></div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeContactModal()">Cancel</button>
+      <button class="btn btn-primary" id="saveContactBtn" onclick="saveContact()">Save Contact</button>
+    </div>
+  </div>
+</div>
+
+<!-- Log Interaction Modal -->
+<div class="modal" id="interactionModal">
+  <div class="modal-box">
+    <h2>Log Interaction</h2>
+    <div class="form-row">
+      <div class="form-group"><label>Type *</label>
+        <select class="form-control" id="iType">
+          <option value="call">Phone Call</option>
+          <option value="email">Email</option>
+          <option value="meeting">Meeting</option>
+          <option value="note" selected>Note</option>
+          <option value="follow_up">Follow-Up</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Date</label><input class="form-control" id="iDate" type="datetime-local"></div>
+    </div>
+    <div class="form-group"><label>Subject *</label><input class="form-control" id="iSubject" placeholder="Discussed Q3 supply needs…"></div>
+    <div class="form-group"><label>Notes</label><textarea class="form-control" id="iNotes" rows="3" placeholder="Details of the interaction…"></textarea></div>
+    <div class="form-row">
+      <div class="form-group"><label>Outcome</label><input class="form-control" id="iOutcome" placeholder="Agreed to send quotation"></div>
+      <div class="form-group"><label>Next Action</label><input class="form-control" id="iNextAction" placeholder="Follow up by Friday"></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeInteractionModal()">Cancel</button>
+      <button class="btn btn-primary" id="saveInteractionBtn" onclick="saveInteraction()">Log Interaction</button>
+    </div>
+  </div>
+</div>
+
+<script src="api.js"></script>
+<script>
+  if (!Auth.isLoggedIn()) { window.location.href = 'login.html'; }
+  const user = Auth.getUser();
+  if (user) document.getElementById('navUserName').textContent = user.first_name || user.email;
+
+  let selectedContactId = null;
+  let searchTimeout = null;
+  let editingContactId = null;
+
+  function fmt(s) { return new Date(s).toLocaleDateString('en-GH', { day:'numeric', month:'short', year:'numeric' }); }
+  function fmtTime(s) { return new Date(s).toLocaleString('en-GH', { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' }); }
+
+  // ── Load Summary ──────────────────────────────────────────────────────────
+  async function loadSummary() {
+    try {
+      const s = await apiFetch('/crm/summary', { auth: true });
+      document.getElementById('statTotal').textContent = s.total_contacts;
+      document.getElementById('statClients').textContent = s.by_type.client;
+      document.getElementById('statProspects').textContent = s.by_type.prospect;
+      document.getElementById('statPartners').textContent = s.by_type.partner;
+      document.getElementById('statInteractions').textContent = s.total_interactions;
+    } catch(e) {}
+  }
+
+  // ── Load Contacts ─────────────────────────────────────────────────────────
+  async function loadContacts(search = '') {
+    const list = document.getElementById('contactsList');
+    list.innerHTML = '<div style="padding:32px;text-align:center;color:var(--text-muted)">Loading…</div>';
+    try {
+      const params = new URLSearchParams({ page_size: 50 });
+      if (search) params.set('search', search);
+      const data = await apiFetch(`/crm/contacts?${params}`, { auth: true });
+      if (!data.contacts.length) {
+        list.innerHTML = `<div style="padding:40px;text-align:center;color:var(--text-muted)"><div style="font-size:32px;margin-bottom:8px">👥</div>No contacts found.<br><button onclick="openContactModal()" style="color:var(--blue);background:none;border:none;cursor:pointer;font-size:13px;margin-top:8px">Add your first contact</button></div>`;
+        return;
+      }
+      list.innerHTML = data.contacts.map(c => `
+        <div class="contact-item ${c.id === selectedContactId ? 'selected' : ''}" onclick="selectContact('${c.id}')">
+          <div class="contact-avatar">${c.first_name[0]}${c.last_name[0]}</div>
+          <div>
+            <div class="contact-name">${c.first_name} ${c.last_name}</div>
+            <div class="contact-org">${c.organization}</div>
+            <span class="type-badge type-${c.type}">${c.type}</span>
+          </div>
+        </div>
+      `).join('');
+    } catch(e) {
+      list.innerHTML = '<div style="padding:32px;text-align:center;color:var(--red)">Failed to load contacts.</div>';
+    }
+  }
+
+  function debounceSearch() {
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(() => {
+      loadContacts(document.getElementById('searchInput').value);
+    }, 350);
+  }
+
+  // ── Select Contact ────────────────────────────────────────────────────────
+  async function selectContact(id) {
+    selectedContactId = id;
+    // Highlight selection
+    document.querySelectorAll('.contact-item').forEach(el => {
+      el.classList.toggle('selected', el.getAttribute('onclick').includes(id));
+    });
+    const area = document.getElementById('detailArea');
+    area.innerHTML = '<div class="card" style="padding:40px;text-align:center;color:var(--text-muted)">Loading contact…</div>';
+    try {
+      const [c, interactions] = await Promise.all([
+        apiFetch(`/crm/contacts/${id}`, { auth: true }),
+        apiFetch(`/crm/contacts/${id}/interactions`, { auth: true }),
+      ]);
+      renderDetail(c, interactions);
+    } catch(e) {
+      area.innerHTML = '<div class="card" style="padding:40px;text-align:center;color:var(--red)">Failed to load contact details.</div>';
+    }
+  }
+
+  function renderDetail(c, interactions) {
+    const area = document.getElementById('detailArea');
+    area.innerHTML = `
+      <div class="detail-card">
+        <div class="detail-top">
+          <div>
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
+              <span class="type-badge type-${c.type}" style="font-size:11px">${c.type}</span>
+            </div>
+            <div class="detail-name">${c.first_name} ${c.last_name}</div>
+            <div class="detail-title">${c.title ? c.title + ' — ' : ''}${c.organization}</div>
+          </div>
+          <div class="detail-actions">
+            <button class="btn btn-ghost btn-sm" onclick="openEditContact(${JSON.stringify(c).replace(/"/g,'&quot;')})">Edit</button>
+            <button class="btn btn-danger btn-sm" onclick="deleteContact('${c.id}')">Delete</button>
+          </div>
+        </div>
+        <div class="info-grid">
+          <div><div class="info-item-label">Email</div><div class="info-item-value">${c.email || '—'}</div></div>
+          <div><div class="info-item-label">Phone</div><div class="info-item-value">${c.phone || '—'}</div></div>
+          <div><div class="info-item-label">Region</div><div class="info-item-value">${c.region || '—'}</div></div>
+          <div><div class="info-item-label">Country</div><div class="info-item-value">${c.country}</div></div>
+          ${c.notes ? `<div style="grid-column:1/-1"><div class="info-item-label">Notes</div><div class="info-item-value" style="color:var(--text-muted)">${c.notes}</div></div>` : ''}
+          <div><div class="info-item-label">Added</div><div class="info-item-value" style="color:var(--text-muted)">${fmt(c.created_at)}</div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="interactions-header">
+          <h3>Interaction History (${interactions.length})</h3>
+          <button class="btn btn-primary btn-sm" onclick="openInteractionModal('${c.id}')">+ Log Interaction</button>
+        </div>
+        <div class="interactions-list">
+          ${interactions.length ? interactions.map(i => `
+            <div class="interaction-item">
+              <div class="interaction-top">
+                <div class="interaction-subject">${i.subject}</div>
+                <div class="interaction-date">${fmtTime(i.interaction_date)}</div>
+              </div>
+              <span class="interaction-type">${i.type}</span>
+              ${i.notes ? `<div class="interaction-notes">${i.notes}</div>` : ''}
+              ${i.outcome ? `<div style="font-size:12px;color:var(--green);margin-top:4px">Outcome: ${i.outcome}</div>` : ''}
+              ${i.next_action ? `<div style="font-size:12px;color:var(--blue);margin-top:2px">Next: ${i.next_action}</div>` : ''}
+            </div>
+          `).join('') : '<div style="padding:32px;text-align:center;color:var(--text-muted)">No interactions logged yet.</div>'}
+        </div>
+      </div>
+    `;
+  }
+
+  // ── Modals ────────────────────────────────────────────────────────────────
+  function openContactModal() {
+    editingContactId = null;
+    document.getElementById('modalTitle').textContent = 'Add New Contact';
+    ['fFirstName','fLastName','fTitle','fOrganization','fEmail','fPhone','fRegion','fNotes'].forEach(id => {
+      document.getElementById(id).value = '';
+    });
+    document.getElementById('fCountry').value = 'Ghana';
+    document.getElementById('fType').value = 'client';
+    document.getElementById('contactModal').classList.add('open');
+  }
+
+  function openEditContact(c) {
+    editingContactId = c.id;
+    document.getElementById('modalTitle').textContent = 'Edit Contact';
+    document.getElementById('fFirstName').value = c.first_name || '';
+    document.getElementById('fLastName').value = c.last_name || '';
+    document.getElementById('fTitle').value = c.title || '';
+    document.getElementById('fOrganization').value = c.organization || '';
+    document.getElementById('fEmail').value = c.email || '';
+    document.getElementById('fPhone').value = c.phone || '';
+    document.getElementById('fRegion').value = c.region || '';
+    document.getElementById('fCountry').value = c.country || 'Ghana';
+    document.getElementById('fNotes').value = c.notes || '';
+    document.getElementById('fType').value = c.type || 'client';
+    document.getElementById('contactModal').classList.add('open');
+  }
+
+  function closeContactModal() { document.getElementById('contactModal').classList.remove('open'); }
+
+  async function saveContact() {
+    const payload = {
+      first_name: document.getElementById('fFirstName').value.trim(),
+      last_name: document.getElementById('fLastName').value.trim(),
+      title: document.getElementById('fTitle').value.trim() || null,
+      organization: document.getElementById('fOrganization').value.trim(),
+      email: document.getElementById('fEmail').value.trim() || null,
+      phone: document.getElementById('fPhone').value.trim() || null,
+      region: document.getElementById('fRegion').value.trim() || null,
+      country: document.getElementById('fCountry').value.trim() || 'Ghana',
+      notes: document.getElementById('fNotes').value.trim() || null,
+      type: document.getElementById('fType').value,
+    };
+    if (!payload.first_name || !payload.last_name || !payload.organization) {
+      showToast('First name, last name, and organization are required.', 'error'); return;
+    }
+    const btn = document.getElementById('saveContactBtn');
+    setButtonLoading(btn, true);
+    try {
+      if (editingContactId) {
+        await apiFetch(`/crm/contacts/${editingContactId}`, { method: 'PATCH', auth: true, body: payload });
+        showToast('Contact updated.', 'success');
+      } else {
+        await apiFetch('/crm/contacts', { method: 'POST', auth: true, body: payload });
+        showToast('Contact added.', 'success');
+      }
+      closeContactModal();
+      loadContacts();
+      loadSummary();
+      if (editingContactId) selectContact(editingContactId);
+    } catch(e) {
+      showToast(e.message, 'error');
+    } finally { setButtonLoading(btn, false); }
+  }
+
+  async function deleteContact(id) {
+    if (!confirm('Delete this contact and all interaction history?')) return;
+    try {
+      await apiFetch(`/crm/contacts/${id}`, { method: 'DELETE', auth: true });
+      showToast('Contact deleted.', 'success');
+      selectedContactId = null;
+      document.getElementById('detailArea').innerHTML = '<div class="card"><div class="empty-state"><div class="empty-state-icon">👤</div><h3>Select a contact</h3></div></div>';
+      loadContacts();
+      loadSummary();
+    } catch(e) { showToast(e.message, 'error'); }
+  }
+
+  let interactionContactId = null;
+  function openInteractionModal(contactId) {
+    interactionContactId = contactId;
+    ['iSubject','iNotes','iOutcome','iNextAction'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('iType').value = 'note';
+    document.getElementById('iDate').value = new Date().toISOString().slice(0,16);
+    document.getElementById('interactionModal').classList.add('open');
+  }
+  function closeInteractionModal() { document.getElementById('interactionModal').classList.remove('open'); }
+
+  async function saveInteraction() {
+    const payload = {
+      type: document.getElementById('iType').value,
+      subject: document.getElementById('iSubject').value.trim(),
+      notes: document.getElementById('iNotes').value.trim() || null,
+      outcome: document.getElementById('iOutcome').value.trim() || null,
+      next_action: document.getElementById('iNextAction').value.trim() || null,
+      interaction_date: document.getElementById('iDate').value || null,
+    };
+    if (!payload.subject) { showToast('Subject is required.', 'error'); return; }
+    const btn = document.getElementById('saveInteractionBtn');
+    setButtonLoading(btn, true);
+    try {
+      await apiFetch(`/crm/contacts/${interactionContactId}/interactions`, { method: 'POST', auth: true, body: payload });
+      showToast('Interaction logged.', 'success');
+      closeInteractionModal();
+      selectContact(interactionContactId);
+      loadSummary();
+    } catch(e) {
+      showToast(e.message, 'error');
+    } finally { setButtonLoading(btn, false); }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    loadSummary();
+    loadContacts();
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Supply Chain — ESSENCE PREMIER</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --blue: #0057a8; --blue-dark: #003d7a; --blue-light: #e8f1fb;
+    --teal: #00a896; --teal-light: #e0f5f3;
+    --white: #ffffff; --off-white: #f7f9fc;
+    --gray-1: #f0f4f8; --gray-2: #e2e8f0; --gray-3: #94a3b8;
+    --text: #0f1f3d; --text-muted: #64748b; --border: #e2e8f0;
+    --shadow: 0 4px 24px rgba(0,87,168,0.08);
+    --green: #16a34a; --orange: #ea580c; --red: #dc2626;
+  }
+  body { font-family: 'DM Sans', sans-serif; background: var(--off-white); color: var(--text); }
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 999; background: rgba(255,255,255,0.97); border-bottom: 1px solid var(--border); backdrop-filter: blur(12px); }
+  .nav-inner { max-width: 1280px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 0 40px; height: 68px; }
+  .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .nav-logo-icon { width: 36px; height: 36px; background: var(--blue); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+  .nav-logo-text { font-family: 'DM Serif Display', serif; font-size: 20px; color: var(--blue); }
+  .nav-logo-text span { color: var(--teal); }
+  .nav-links { display: flex; gap: 4px; list-style: none; }
+  .nav-links a { font-size: 13px; font-weight: 500; color: var(--text-muted); text-decoration: none; padding: 7px 12px; border-radius: 7px; transition: all 0.2s; }
+  .nav-links a:hover, .nav-links a.active { background: var(--blue-light); color: var(--blue); }
+  .nav-right { display: flex; align-items: center; gap: 12px; }
+  .nav-user { font-size: 13px; font-weight: 600; color: var(--blue); }
+  .btn-logout { padding: 7px 16px; border: 1.5px solid var(--gray-2); color: var(--text-muted); font-size: 13px; font-weight: 500; border-radius: 7px; cursor: pointer; background: white; font-family: 'DM Sans', sans-serif; }
+  main { max-width: 1200px; margin: 0 auto; padding: 100px 40px 60px; }
+  .page-header { margin-bottom: 28px; }
+  .page-header h1 { font-family: 'DM Serif Display', serif; font-size: 32px; }
+  .page-header p { color: var(--text-muted); font-size: 14px; margin-top: 4px; }
+  .btn { padding: 10px 20px; border-radius: 9px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; border: none; transition: all 0.2s; }
+  .btn-primary { background: var(--blue); color: white; }
+  .btn-primary:hover { background: var(--blue-dark); }
+  .btn-ghost { background: white; color: var(--blue); border: 1.5px solid var(--blue); }
+  .btn-sm { padding: 6px 14px; font-size: 13px; }
+  .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 28px; }
+  .stat-card { background: white; border-radius: 12px; padding: 20px; border: 1px solid var(--border); box-shadow: var(--shadow); }
+  .stat-icon { font-size: 22px; margin-bottom: 8px; }
+  .stat-label { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+  .stat-value { font-size: 22px; font-weight: 700; color: var(--text); margin-top: 5px; }
+  .card { background: white; border-radius: 14px; border: 1px solid var(--border); box-shadow: var(--shadow); overflow: hidden; }
+  .card-header { padding: 18px 24px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+  .card-header h2 { font-size: 16px; font-weight: 600; }
+  .tabs { display: flex; gap: 0; border-bottom: 1px solid var(--border); padding: 0 24px; background: white; }
+  .tab { padding: 14px 0; margin-right: 24px; font-size: 14px; font-weight: 500; color: var(--text-muted); cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s; background: none; border-top: none; border-left: none; border-right: none; font-family: 'DM Sans', sans-serif; }
+  .tab.active { color: var(--blue); border-bottom-color: var(--blue); }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+  table { width: 100%; border-collapse: collapse; }
+  th { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; padding: 12px 20px; background: var(--off-white); text-align: left; border-bottom: 1px solid var(--gray-1); }
+  td { padding: 14px 20px; font-size: 14px; border-bottom: 1px solid var(--gray-1); }
+  tr:last-child td { border-bottom: none; }
+  .badge { display: inline-flex; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+  .badge-draft { background: #f1f5f9; color: #64748b; }
+  .badge-sent { background: #dbeafe; color: #1e40af; }
+  .badge-confirmed { background: #ede9fe; color: #5b21b6; }
+  .badge-shipped { background: var(--teal-light); color: #065f46; }
+  .badge-received { background: #dcfce7; color: #166534; }
+  .badge-cancelled { background: #fee2e2; color: #991b1b; }
+  .stars { color: #f59e0b; }
+  .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; }
+  .modal.open { display: flex; }
+  .modal-box { background: white; border-radius: 16px; padding: 32px; width: 540px; max-width: 95vw; max-height: 90vh; overflow-y: auto; box-shadow: 0 24px 80px rgba(0,0,0,0.2); }
+  .modal-box h2 { font-family: 'DM Serif Display', serif; font-size: 22px; margin-bottom: 24px; }
+  .form-group { margin-bottom: 16px; }
+  .form-group label { display: block; font-size: 12px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 6px; }
+  .form-control { width: 100%; padding: 10px 14px; border: 1.5px solid var(--border); border-radius: 9px; font-size: 14px; font-family: 'DM Sans', sans-serif; color: var(--text); }
+  .form-control:focus { outline: none; border-color: var(--blue); }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 24px; }
+  .po-items { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-top: 8px; }
+  .po-item-row { display: grid; grid-template-columns: 2fr 1fr 1fr auto; gap: 8px; align-items: center; padding: 10px 12px; border-bottom: 1px solid var(--gray-1); }
+  .po-item-row:last-child { border-bottom: none; }
+  .po-items-header { background: var(--off-white); padding: 8px 12px; display: grid; grid-template-columns: 2fr 1fr 1fr auto; gap: 8px; }
+  .po-items-header span { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; }
+  .add-item-row { padding: 10px 12px; display: flex; justify-content: center; }
+  @media (max-width: 900px) {
+    .stats-row { grid-template-columns: repeat(2, 1fr); }
+    main { padding: 90px 16px 40px; }
+    .nav-inner { padding: 0 16px; }
+    .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-icon">⚕</div>
+      <span class="nav-logo-text">ESSENCE <span>PREMIER</span></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="catalog.html">Products</a></li>
+      <li><a href="dashboard.html">Dashboard</a></li>
+      <li><a href="crm.html">CRM</a></li>
+      <li><a href="finance.html">Finance</a></li>
+      <li><a href="supply_chain.html" class="active">Supply Chain</a></li>
+    </ul>
+    <div class="nav-right">
+      <span class="nav-user" id="navUserName"></span>
+      <button class="btn-logout" onclick="AuthAPI.logout()">Sign Out</button>
+    </div>
+  </div>
+</nav>
+
+<main>
+  <div class="page-header">
+    <h1>Supply Chain Management</h1>
+    <p>Manage suppliers, purchase orders, and distribution partners.</p>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-icon">🏭</div>
+      <div class="stat-label">Active Suppliers</div>
+      <div class="stat-value" id="statSuppliers">—</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">🤝</div>
+      <div class="stat-label">Partners</div>
+      <div class="stat-value" id="statPartners">—</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">📋</div>
+      <div class="stat-label">Purchase Orders</div>
+      <div class="stat-value" id="statPOs">—</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">💰</div>
+      <div class="stat-label">PO Value (GH¢)</div>
+      <div class="stat-value" id="statPOValue">—</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('suppliers', this)">Suppliers</button>
+      <button class="tab" onclick="switchTab('po', this)">Purchase Orders</button>
+      <button class="tab" onclick="switchTab('partners', this)">Partners</button>
+    </div>
+
+    <!-- Suppliers Tab -->
+    <div class="tab-content active" id="tab-suppliers">
+      <div style="padding:14px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:flex-end">
+        <button class="btn btn-primary btn-sm" onclick="openSupplierModal()">+ Add Supplier</button>
+      </div>
+      <table>
+        <thead>
+          <tr><th>Supplier</th><th>Category</th><th>Contact</th><th>Country</th><th>Rating</th><th>Action</th></tr>
+        </thead>
+        <tbody id="suppliersBody">
+          <tr><td colspan="6" style="text-align:center;padding:40px;color:var(--text-muted)">Loading…</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Purchase Orders Tab -->
+    <div class="tab-content" id="tab-po">
+      <div style="padding:14px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:flex-end">
+        <button class="btn btn-primary btn-sm" onclick="openPOModal()">+ New Purchase Order</button>
+      </div>
+      <table>
+        <thead>
+          <tr><th>Reference</th><th>Supplier</th><th>Total (GH¢)</th><th>Expected</th><th>Status</th><th>Action</th></tr>
+        </thead>
+        <tbody id="poBody">
+          <tr><td colspan="6" style="text-align:center;padding:40px;color:var(--text-muted)">Loading…</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Partners Tab -->
+    <div class="tab-content" id="tab-partners">
+      <div style="padding:14px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:flex-end">
+        <button class="btn btn-primary btn-sm" onclick="openPartnerModal()">+ Add Partner</button>
+      </div>
+      <table>
+        <thead>
+          <tr><th>Partner</th><th>Type</th><th>Contact</th><th>Region</th><th>Country</th><th>Status</th></tr>
+        </thead>
+        <tbody id="partnersBody">
+          <tr><td colspan="6" style="text-align:center;padding:40px;color:var(--text-muted)">Loading…</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</main>
+
+<!-- Supplier Modal -->
+<div class="modal" id="supplierModal">
+  <div class="modal-box">
+    <h2>Add Supplier</h2>
+    <div class="form-group"><label>Company Name *</label><input class="form-control" id="sName" placeholder="Medline West Africa Ltd"></div>
+    <div class="form-row">
+      <div class="form-group"><label>Contact Person</label><input class="form-control" id="sContact" placeholder="Kwame Asante"></div>
+      <div class="form-group"><label>Category</label><input class="form-control" id="sCategory" placeholder="Surgical, PPE..."></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Email</label><input class="form-control" id="sEmail" type="email"></div>
+      <div class="form-group"><label>Phone</label><input class="form-control" id="sPhone" placeholder="+233-24-000-0000"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Country</label><input class="form-control" id="sCountry" value="Ghana"></div>
+      <div class="form-group"><label>Rating (1-5)</label><input class="form-control" id="sRating" type="number" min="1" max="5" step="0.1" placeholder="4.5"></div>
+    </div>
+    <div class="form-group"><label>Address</label><input class="form-control" id="sAddress" placeholder="Street, City"></div>
+    <div class="form-group"><label>Notes</label><textarea class="form-control" id="sNotes" rows="2"></textarea></div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('supplierModal')">Cancel</button>
+      <button class="btn btn-primary" id="saveSupplierBtn" onclick="saveSupplier()">Save Supplier</button>
+    </div>
+  </div>
+</div>
+
+<!-- PO Modal -->
+<div class="modal" id="poModal">
+  <div class="modal-box">
+    <h2>New Purchase Order</h2>
+    <div class="form-group">
+      <label>Supplier *</label>
+      <select class="form-control" id="poSupplierId">
+        <option value="">— select supplier —</option>
+      </select>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Expected Delivery</label><input class="form-control" id="poExpectedDate" type="date"></div>
+    </div>
+    <div class="form-group">
+      <label>Items *</label>
+      <div class="po-items" id="poItemsContainer">
+        <div class="po-items-header">
+          <span>Product</span><span>Qty</span><span>Unit Cost</span><span></span>
+        </div>
+        <div id="poItemsList"></div>
+        <div class="add-item-row">
+          <button class="btn btn-ghost btn-sm" onclick="addPOItem()">+ Add Item</button>
+        </div>
+      </div>
+    </div>
+    <div class="form-group"><label>Notes</label><textarea class="form-control" id="poNotes" rows="2"></textarea></div>
+    <div style="text-align:right;font-weight:700;font-size:15px;color:var(--blue);margin-bottom:8px" id="poTotal">Total: GH¢ 0.00</div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('poModal')">Cancel</button>
+      <button class="btn btn-primary" id="savePOBtn" onclick="savePO()">Create PO</button>
+    </div>
+  </div>
+</div>
+
+<!-- Partner Modal -->
+<div class="modal" id="partnerModal">
+  <div class="modal-box">
+    <h2>Add Partner</h2>
+    <div class="form-group"><label>Company Name *</label><input class="form-control" id="pName" placeholder="GhanaExpress Logistics"></div>
+    <div class="form-row">
+      <div class="form-group"><label>Type *</label>
+        <select class="form-control" id="pType">
+          <option value="distributor">Distributor</option>
+          <option value="logistics">Logistics</option>
+          <option value="warehouse">Warehouse</option>
+          <option value="agent">Agent</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Region</label><input class="form-control" id="pRegion" placeholder="Greater Accra"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Contact Person</label><input class="form-control" id="pContact"></div>
+      <div class="form-group"><label>Phone</label><input class="form-control" id="pPhone"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Email</label><input class="form-control" id="pEmail" type="email"></div>
+      <div class="form-group"><label>Country</label><input class="form-control" id="pCountry" value="Ghana"></div>
+    </div>
+    <div class="form-group"><label>Notes</label><textarea class="form-control" id="pNotes" rows="2"></textarea></div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('partnerModal')">Cancel</button>
+      <button class="btn btn-primary" id="savePartnerBtn" onclick="savePartner()">Save Partner</button>
+    </div>
+  </div>
+</div>
+
+<script src="api.js"></script>
+<script>
+  if (!Auth.isLoggedIn()) { window.location.href = 'login.html'; }
+  const user = Auth.getUser();
+  if (user) document.getElementById('navUserName').textContent = user.first_name || user.email;
+
+  let allProducts = [];
+  let poItems = [];
+
+  function fmt(n) { return Number(n).toLocaleString('en-GH', { minimumFractionDigits: 2 }); }
+  function fmtDate(s) { return s ? new Date(s).toLocaleDateString('en-GH', { day:'numeric', month:'short', year:'numeric' }) : '—'; }
+  function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+  function switchTab(name, btn) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + name).classList.add('active');
+  }
+
+  // ── Summary ───────────────────────────────────────────────────────────────
+  async function loadSummary() {
+    try {
+      const s = await apiFetch('/supply-chain/summary', { auth: true });
+      document.getElementById('statSuppliers').textContent = s.active_suppliers;
+      document.getElementById('statPartners').textContent = s.active_partners;
+      document.getElementById('statPOs').textContent = s.purchase_orders.total;
+      document.getElementById('statPOValue').textContent = 'GH¢ ' + fmt(s.purchase_orders.total_value);
+    } catch(e) {}
+  }
+
+  // ── Suppliers ─────────────────────────────────────────────────────────────
+  async function loadSuppliers() {
+    const tbody = document.getElementById('suppliersBody');
+    try {
+      const data = await apiFetch('/supply-chain/suppliers', { auth: true });
+      const suppliers = data.suppliers || [];
+      // Populate PO supplier dropdown
+      const sel = document.getElementById('poSupplierId');
+      sel.innerHTML = '<option value="">— select supplier —</option>' +
+        suppliers.map(s => `<option value="${s.id}">${s.name}</option>`).join('');
+
+      if (!suppliers.length) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--text-muted)">No suppliers yet. Add your first.</td></tr>';
+        return;
+      }
+      tbody.innerHTML = suppliers.map(s => `
+        <tr>
+          <td>
+            <div style="font-weight:600">${s.name}</div>
+            <div style="font-size:12px;color:var(--text-muted)">${s.address || ''}</div>
+          </td>
+          <td style="color:var(--text-muted)">${s.category || '—'}</td>
+          <td>
+            <div>${s.contact_person || '—'}</div>
+            <div style="font-size:12px;color:var(--text-muted)">${s.email || ''}</div>
+          </td>
+          <td style="color:var(--text-muted)">${s.country}</td>
+          <td><span class="stars">${'★'.repeat(Math.floor(s.rating || 0))}${'☆'.repeat(5 - Math.floor(s.rating || 0))}</span> ${s.rating || '—'}</td>
+          <td>
+            <button class="btn btn-ghost btn-sm" onclick="openPOModal('${s.id}')">New PO</button>
+          </td>
+        </tr>
+      `).join('');
+    } catch(e) {
+      tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:32px;color:var(--red)">Failed to load suppliers.</td></tr>';
+    }
+  }
+
+  function openSupplierModal() {
+    ['sName','sContact','sCategory','sEmail','sPhone','sAddress','sNotes'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('sCountry').value = 'Ghana';
+    document.getElementById('sRating').value = '';
+    document.getElementById('supplierModal').classList.add('open');
+  }
+
+  async function saveSupplier() {
+    const name = document.getElementById('sName').value.trim();
+    if (!name) { showToast('Supplier name is required.', 'error'); return; }
+    const btn = document.getElementById('saveSupplierBtn');
+    setButtonLoading(btn, true);
+    const payload = {
+      name,
+      contact_person: document.getElementById('sContact').value.trim() || null,
+      category: document.getElementById('sCategory').value.trim() || null,
+      email: document.getElementById('sEmail').value.trim() || null,
+      phone: document.getElementById('sPhone').value.trim() || null,
+      country: document.getElementById('sCountry').value.trim() || 'Ghana',
+      address: document.getElementById('sAddress').value.trim() || null,
+      rating: parseFloat(document.getElementById('sRating').value) || null,
+      notes: document.getElementById('sNotes').value.trim() || null,
+    };
+    try {
+      await apiFetch('/supply-chain/suppliers', { method: 'POST', auth: true, body: payload });
+      showToast('Supplier added.', 'success');
+      closeModal('supplierModal');
+      loadSuppliers();
+      loadSummary();
+    } catch(e) {
+      showToast(e.message, 'error');
+    } finally { setButtonLoading(btn, false); }
+  }
+
+  // ── Purchase Orders ───────────────────────────────────────────────────────
+  async function loadPOs() {
+    const tbody = document.getElementById('poBody');
+    try {
+      const data = await apiFetch('/supply-chain/purchase-orders', { auth: true });
+      const pos = data.purchase_orders || [];
+      if (!pos.length) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--text-muted)">No purchase orders yet.</td></tr>';
+        return;
+      }
+      tbody.innerHTML = pos.map(po => `
+        <tr>
+          <td style="font-weight:600;color:var(--blue)">${po.reference}</td>
+          <td>${po.suppliers?.name || '—'}</td>
+          <td style="font-weight:600">GH¢ ${fmt(po.total_amount)}</td>
+          <td style="color:var(--text-muted)">${fmtDate(po.expected_date)}</td>
+          <td><span class="badge badge-${po.status}">${po.status}</span></td>
+          <td>
+            ${po.status !== 'received' && po.status !== 'cancelled'
+              ? `<select onchange="updatePOStatus('${po.id}', this.value, this)" style="font-size:12px;padding:4px 8px;border:1px solid var(--border);border-radius:6px;font-family:'DM Sans',sans-serif;cursor:pointer">
+                  <option value="">Update status…</option>
+                  <option value="sent">Sent</option>
+                  <option value="confirmed">Confirmed</option>
+                  <option value="shipped">Shipped</option>
+                  <option value="received">Received</option>
+                  <option value="cancelled">Cancelled</option>
+                </select>`
+              : `<span style="font-size:12px;color:var(--text-muted)">${po.received_date ? fmtDate(po.received_date) : '—'}</span>`
+            }
+          </td>
+        </tr>
+      `).join('');
+    } catch(e) {
+      tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:32px;color:var(--red)">Failed to load purchase orders.</td></tr>';
+    }
+  }
+
+  async function updatePOStatus(poId, status, select) {
+    if (!status) return;
+    try {
+      await apiFetch(`/supply-chain/purchase-orders/${poId}/status?status=${status}`, { method: 'PATCH', auth: true });
+      showToast('Status updated.', 'success');
+      loadPOs();
+      loadSummary();
+    } catch(e) {
+      showToast(e.message, 'error');
+      select.value = '';
+    }
+  }
+
+  async function loadProducts() {
+    try {
+      const data = await apiFetch('/products?page_size=50');
+      allProducts = data.products || [];
+    } catch(e) {}
+  }
+
+  function openPOModal(supplierId = '') {
+    poItems = [];
+    document.getElementById('poNotes').value = '';
+    document.getElementById('poExpectedDate').value = '';
+    document.getElementById('poItemsList').innerHTML = '';
+    document.getElementById('poTotal').textContent = 'Total: GH¢ 0.00';
+    if (supplierId) document.getElementById('poSupplierId').value = supplierId;
+    else document.getElementById('poSupplierId').value = '';
+    addPOItem();
+    document.getElementById('poModal').classList.add('open');
+  }
+
+  function addPOItem() {
+    const idx = poItems.length;
+    poItems.push({ product_id: '', quantity: 1, unit_cost: 0 });
+    const list = document.getElementById('poItemsList');
+    const row = document.createElement('div');
+    row.className = 'po-item-row';
+    row.id = `poi-${idx}`;
+    row.innerHTML = `
+      <select class="form-control" style="font-size:13px;padding:7px 10px" onchange="updatePOItem(${idx},'product_id',this.value)">
+        <option value="">Select product…</option>
+        ${allProducts.map(p => `<option value="${p.id}">${p.name} (${p.sku})</option>`).join('')}
+      </select>
+      <input class="form-control" style="font-size:13px;padding:7px 10px" type="number" min="1" value="1" onchange="updatePOItem(${idx},'quantity',this.value)">
+      <input class="form-control" style="font-size:13px;padding:7px 10px" type="number" min="0" step="0.01" placeholder="0.00" onchange="updatePOItem(${idx},'unit_cost',this.value)">
+      <button onclick="removePOItem(${idx})" style="background:none;border:none;cursor:pointer;font-size:16px;color:var(--red)">✕</button>
+    `;
+    list.appendChild(row);
+  }
+
+  function updatePOItem(idx, field, val) {
+    if (!poItems[idx]) return;
+    poItems[idx][field] = field === 'product_id' ? val : parseFloat(val) || 0;
+    recalcPOTotal();
+  }
+
+  function removePOItem(idx) {
+    const row = document.getElementById(`poi-${idx}`);
+    if (row) row.remove();
+    if (poItems[idx]) poItems[idx]._deleted = true;
+    recalcPOTotal();
+  }
+
+  function recalcPOTotal() {
+    const total = poItems.filter(i => !i._deleted).reduce((sum, i) => sum + (i.quantity * i.unit_cost), 0);
+    document.getElementById('poTotal').textContent = 'Total: GH¢ ' + fmt(total);
+  }
+
+  async function savePO() {
+    const supplierId = document.getElementById('poSupplierId').value;
+    if (!supplierId) { showToast('Select a supplier.', 'error'); return; }
+    const items = poItems.filter(i => !i._deleted && i.product_id && i.quantity > 0 && i.unit_cost > 0);
+    if (!items.length) { showToast('Add at least one item with a product, quantity, and cost.', 'error'); return; }
+    const btn = document.getElementById('savePOBtn');
+    setButtonLoading(btn, true);
+    try {
+      await apiFetch('/supply-chain/purchase-orders', { method: 'POST', auth: true, body: {
+        supplier_id: supplierId,
+        items: items.map(i => ({ product_id: i.product_id, quantity: i.quantity, unit_cost: i.unit_cost })),
+        expected_date: document.getElementById('poExpectedDate').value || null,
+        notes: document.getElementById('poNotes').value.trim() || null,
+      }});
+      showToast('Purchase order created.', 'success');
+      closeModal('poModal');
+      loadPOs();
+      loadSummary();
+    } catch(e) {
+      showToast(e.message, 'error');
+    } finally { setButtonLoading(btn, false); }
+  }
+
+  // ── Partners ──────────────────────────────────────────────────────────────
+  async function loadPartners() {
+    const tbody = document.getElementById('partnersBody');
+    try {
+      const data = await apiFetch('/supply-chain/partners', { auth: true });
+      const partners = Array.isArray(data) ? data : [];
+      if (!partners.length) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--text-muted)">No partners added yet.</td></tr>';
+        return;
+      }
+      tbody.innerHTML = partners.map(p => `
+        <tr>
+          <td>
+            <div style="font-weight:600">${p.name}</div>
+            <div style="font-size:12px;color:var(--text-muted)">${p.contact_person || ''}</div>
+          </td>
+          <td><span class="badge badge-sent" style="text-transform:capitalize">${p.type}</span></td>
+          <td style="color:var(--text-muted)">${p.email || p.phone || '—'}</td>
+          <td style="color:var(--text-muted)">${p.region || '—'}</td>
+          <td style="color:var(--text-muted)">${p.country}</td>
+          <td><span style="font-size:12px;color:${p.is_active ? 'var(--green)' : 'var(--red)'}">● ${p.is_active ? 'Active' : 'Inactive'}</span></td>
+        </tr>
+      `).join('');
+    } catch(e) {
+      tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:32px;color:var(--red)">Failed to load partners.</td></tr>';
+    }
+  }
+
+  function openPartnerModal() {
+    ['pName','pContact','pPhone','pEmail','pRegion','pNotes'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('pCountry').value = 'Ghana';
+    document.getElementById('pType').value = 'distributor';
+    document.getElementById('partnerModal').classList.add('open');
+  }
+
+  async function savePartner() {
+    const name = document.getElementById('pName').value.trim();
+    if (!name) { showToast('Partner name is required.', 'error'); return; }
+    const btn = document.getElementById('savePartnerBtn');
+    setButtonLoading(btn, true);
+    try {
+      await apiFetch('/supply-chain/partners', { method: 'POST', auth: true, body: {
+        name,
+        type: document.getElementById('pType').value,
+        contact_person: document.getElementById('pContact').value.trim() || null,
+        phone: document.getElementById('pPhone').value.trim() || null,
+        email: document.getElementById('pEmail').value.trim() || null,
+        region: document.getElementById('pRegion').value.trim() || null,
+        country: document.getElementById('pCountry').value.trim() || 'Ghana',
+        notes: document.getElementById('pNotes').value.trim() || null,
+      }});
+      showToast('Partner added.', 'success');
+      closeModal('partnerModal');
+      loadPartners();
+      loadSummary();
+    } catch(e) {
+      showToast(e.message, 'error');
+    } finally { setButtonLoading(btn, false); }
+  }
+
+  document.addEventListener('DOMContentLoaded', async () => {
+    await Promise.all([loadProducts(), loadSummary()]);
+    loadSuppliers();
+    loadPOs();
+    loadPartners();
+  });
+</script>
+</body>
+</html>

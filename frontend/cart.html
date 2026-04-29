@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cart — ESSENCE PREMIER</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{--blue:#0057a8;--blue-dark:#003d7a;--blue-light:#e8f1fb;--teal:#00a896;--teal-light:#e0f5f3;--off-white:#f7f9fc;--border:#e2e8f0;--text:#0f1f3d;--text-muted:#64748b;--success:#16a34a;}
+body{font-family:'DM Sans',sans-serif;background:var(--off-white);color:var(--text);}
+nav{background:white;border-bottom:1px solid var(--border);}
+.nav-inner{max-width:1200px;margin:auto;display:flex;justify-content:space-between;align-items:center;padding:0 40px;height:70px;}
+.nav-logo{font-family:'DM Serif Display';font-size:22px;color:var(--blue);text-decoration:none;display:flex;align-items:center;gap:8px;}
+.nav-actions{display:flex;gap:10px;align-items:center;}
+.nav-actions a{text-decoration:none;padding:8px 16px;border-radius:8px;font-weight:600;font-size:14px;color:var(--text-muted);}
+.nav-btn-fill{background:var(--blue)!important;color:white!important;display:flex;align-items:center;gap:6px;}
+.cart-count{background:var(--teal);padding:2px 7px;border-radius:20px;font-size:11px;font-weight:700;}
+.page-header{padding:32px 40px;background:white;border-bottom:1px solid var(--border);}
+.page-header h1{font-family:'DM Serif Display';font-size:34px;}
+.cart-layout{max-width:1200px;margin:auto;padding:32px 40px;display:grid;grid-template-columns:1fr 360px;gap:28px;}
+.cart-card{background:white;border-radius:14px;border:1.5px solid var(--border);overflow:hidden;}
+.cart-header{padding:20px 24px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);}
+.cart-header h3{font-family:'DM Serif Display';font-size:20px;}
+.clear-btn{background:none;border:1px solid #fca5a5;color:#dc2626;cursor:pointer;padding:7px 14px;border-radius:8px;font-size:13px;font-family:'DM Sans',sans-serif;font-weight:600;}
+.clear-btn:hover{background:#fef2f2;}
+.cart-item{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 40px;gap:16px;padding:18px 24px;border-bottom:1px solid var(--border);align-items:center;}
+.item-product{display:flex;gap:14px;align-items:center;}
+.item-product img{width:70px;height:70px;object-fit:cover;border-radius:10px;background:var(--off-white);}
+.item-name{font-size:14px;font-weight:600;margin-bottom:3px;line-height:1.4;}
+.item-sku{font-size:11px;color:var(--text-muted);}
+.item-price{font-size:14px;color:var(--text-muted);}
+.qty-wrap{display:flex;align-items:center;border:1.5px solid var(--border);border-radius:8px;overflow:hidden;}
+.qty-btn{width:32px;height:32px;border:none;background:#f0f4f8;cursor:pointer;font-size:16px;font-family:'DM Sans',sans-serif;transition:background .2s;}
+.qty-btn:hover{background:#e2e8f0;}
+.qty-num{padding:0 12px;font-size:14px;font-weight:600;min-width:32px;text-align:center;}
+.item-subtotal{font-weight:700;color:var(--blue);font-size:15px;}
+.remove-btn{background:none;border:none;cursor:pointer;font-size:20px;color:var(--text-muted);transition:color .2s;padding:4px;}
+.remove-btn:hover{color:#dc2626;}
+.summary{background:white;border-radius:14px;border:1.5px solid var(--border);padding:24px;height:fit-content;position:sticky;top:90px;}
+.summary h3{font-family:'DM Serif Display';font-size:22px;margin-bottom:20px;}
+.summary-row{display:flex;justify-content:space-between;font-size:14px;padding:10px 0;border-bottom:1px solid var(--border);}
+.summary-row:last-of-type{border:none;}
+.summary-row span:first-child{color:var(--text-muted);}
+.vat-row{background:var(--teal-light);border-radius:8px;padding:10px 12px;margin:4px -12px;}
+.vat-row span{color:var(--teal)!important;font-weight:600!important;}
+.total-row{font-size:16px;font-weight:700;padding-top:14px!important;border:none!important;}
+.total-row span:last-child{color:var(--blue);font-family:'DM Serif Display';font-size:22px;}
+.checkout-btn{display:block;margin-top:20px;background:var(--blue);color:white;padding:15px;text-align:center;border-radius:10px;text-decoration:none;font-weight:700;font-size:15px;transition:all .3s;}
+.checkout-btn:hover{background:var(--blue-dark);transform:translateY(-1px);}
+.empty-state{text-align:center;padding:80px 40px;}
+.empty-state .icon{font-size:56px;margin-bottom:16px;}
+.empty-state h3{font-family:'DM Serif Display';font-size:24px;margin-bottom:10px;}
+.empty-state p{color:var(--text-muted);margin-bottom:24px;}
+.empty-state a{display:inline-block;padding:12px 28px;background:var(--blue);color:white;border-radius:10px;text-decoration:none;font-weight:600;}
+.loading-state{text-align:center;padding:60px;color:var(--text-muted);}
+</style>
+</head>
+<body>
+<script src="api.js"></script>
+
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">🏥 ESSENCE PREMIER</a>
+    <div class="nav-actions">
+      <a href="catalog.html">Catalog</a>
+      <a href="cart.html" class="nav-btn-fill">🛒 Cart <span class="cart-count" id="cartCount">0</span></a>
+    </div>
+  </div>
+</nav>
+
+<div class="page-header"><h1>Your Cart</h1></div>
+
+<div class="cart-layout">
+  <div class="cart-card">
+    <div class="cart-header">
+      <h3>Items</h3>
+      <button class="clear-btn" onclick="clearCart()">Clear Cart</button>
+    </div>
+    <div id="cartBody"><div class="loading-state">⏳ Loading your cart…</div></div>
+  </div>
+
+  <div class="summary">
+    <h3>Order Summary</h3>
+    <div class="summary-row"><span>Subtotal</span><span id="subtotal">—</span></div>
+    <div class="summary-row vat-row"><span>VAT (15%)</span><span id="vatAmount">—</span></div>
+    <div class="summary-row"><span>Shipping</span><span style="color:#16a34a;font-weight:600">Free</span></div>
+    <div class="summary-row total-row"><span>Total</span><span id="total">—</span></div>
+    <a href="checkout.html" class="checkout-btn" id="checkoutBtn">Proceed to Checkout →</a>
+  </div>
+</div>
+
+<script>
+// Redirect to login if not authenticated
+if (!Auth.isLoggedIn()) {
+  window.location.href = 'login.html';
+}
+
+async function loadCart() {
+  const body = document.getElementById('cartBody');
+  try {
+    const cart = await CartAPI.get();
+    renderCart(cart);
+  } catch (err) {
+    body.innerHTML = `<div class="loading-state">⚠️ ${err.message}</div>`;
+  }
+}
+
+function renderCart(cart) {
+  const body = document.getElementById('cartBody');
+  document.getElementById('cartCount').textContent = cart.item_count;
+  document.getElementById('subtotal').textContent  = `$${cart.subtotal.toFixed(2)}`;
+  document.getElementById('vatAmount').textContent  = `$${cart.vat_amount.toFixed(2)}`;
+  document.getElementById('total').textContent      = `$${cart.total.toFixed(2)}`;
+
+  if (!cart.items.length) {
+    body.innerHTML = `
+      <div class="empty-state">
+        <div class="icon">🛒</div>
+        <h3>Your cart is empty</h3>
+        <p>Add certified medical supplies from our catalog.</p>
+        <a href="catalog.html">Browse Catalog →</a>
+      </div>`;
+    document.getElementById('checkoutBtn').style.opacity = '0.5';
+    document.getElementById('checkoutBtn').style.pointerEvents = 'none';
+    return;
+  }
+
+  document.getElementById('checkoutBtn').style.opacity = '';
+  document.getElementById('checkoutBtn').style.pointerEvents = '';
+
+  body.innerHTML = cart.items.map(item => `
+    <div class="cart-item" id="item-${item.id}">
+      <div class="item-product">
+        <img src="${item.image_url || 'https://via.placeholder.com/70'}" alt="${item.name}" onerror="this.src='https://via.placeholder.com/70'">
+        <div>
+          <div class="item-name">${item.name}</div>
+          <div class="item-sku">${item.sku} · per ${item.unit}</div>
+        </div>
+      </div>
+      <div class="item-price">$${item.price.toFixed(2)}</div>
+      <div class="qty-wrap">
+        <button class="qty-btn" onclick="changeQty('${item.id}', ${item.quantity - 1})">−</button>
+        <div class="qty-num">${item.quantity}</div>
+        <button class="qty-btn" onclick="changeQty('${item.id}', ${item.quantity + 1})">+</button>
+      </div>
+      <div class="item-subtotal">$${item.subtotal.toFixed(2)}</div>
+      <button class="remove-btn" onclick="removeItem('${item.id}')" title="Remove item">×</button>
+    </div>
+  `).join('');
+}
+
+async function changeQty(itemId, newQty) {
+  try {
+    const cart = newQty === 0
+      ? await CartAPI.remove(itemId)
+      : await CartAPI.update(itemId, newQty);
+    renderCart(cart);
+  } catch (err) {
+    showToast(err.message, 'error');
+  }
+}
+
+async function removeItem(itemId) {
+  try {
+    const cart = await CartAPI.remove(itemId);
+    renderCart(cart);
+    showToast('Item removed from cart.');
+  } catch (err) {
+    showToast(err.message, 'error');
+  }
+}
+
+async function clearCart() {
+  if (!confirm('Remove all items from your cart?')) return;
+  try {
+    await CartAPI.clear();
+    await loadCart();
+    showToast('Cart cleared.');
+  } catch (err) {
+    showToast(err.message, 'error');
+  }
+}
+
+loadCart();
+</script>
+</body>
+</html>

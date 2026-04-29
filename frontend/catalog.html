@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Product Catalog — ESSENCE PREMIER</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--blue:#0057a8;--blue-dark:#003d7a;--blue-light:#e8f1fb;--teal:#00a896;--off-white:#f7f9fc;--text:#0f1f3d;--text-muted:#64748b;--border:#e2e8f0;}
+body{font-family:'DM Sans',sans-serif;background:var(--off-white);color:var(--text);}
+nav{background:white;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;}
+.nav-inner{max-width:1280px;margin:auto;display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:70px;}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.nav-logo-icon{width:36px;height:36px;background:var(--blue);border-radius:8px;display:flex;align-items:center;justify-content:center;color:white;font-size:18px;}
+.nav-logo-text{font-family:'DM Serif Display',serif;font-size:20px;color:var(--blue);}
+.nav-logo-text span{color:var(--teal);}
+.nav-links{display:flex;gap:10px;list-style:none;}
+.nav-links a{text-decoration:none;color:var(--text-muted);font-size:14px;padding:8px 14px;border-radius:8px;transition:all .2s;}
+.nav-links a.active,.nav-links a:hover{background:var(--blue-light);color:var(--blue);}
+.nav-actions{display:flex;gap:10px;align-items:center;}
+.nav-btn-ghost{padding:8px 18px;border:1.5px solid var(--blue);color:var(--blue);border-radius:8px;text-decoration:none;font-size:14px;font-weight:600;}
+.nav-btn-fill{padding:9px 20px;background:var(--blue);color:white;border-radius:8px;text-decoration:none;display:flex;align-items:center;gap:6px;font-size:14px;font-weight:600;}
+.cart-count{background:var(--teal);width:18px;height:18px;border-radius:50%;font-size:11px;display:flex;align-items:center;justify-content:center;font-weight:700;}
+.page-hero{background:linear-gradient(135deg,var(--blue-dark),var(--blue));padding:50px 40px;}
+.page-hero-inner{max-width:1280px;margin:auto;}
+.page-hero h1{font-family:'DM Serif Display',serif;font-size:40px;color:white;margin-bottom:8px;}
+.page-hero p{color:rgba(255,255,255,0.8);}
+
+/* Filters */
+.catalog-wrap{max-width:1280px;margin:32px auto;padding:0 40px;}
+.filters{display:flex;gap:12px;margin-bottom:24px;align-items:center;flex-wrap:wrap;}
+.search-input{flex:1;min-width:200px;padding:11px 16px;border:1.5px solid var(--border);border-radius:9px;font-size:14px;font-family:'DM Sans',sans-serif;outline:none;background:white;}
+.search-input:focus{border-color:var(--blue);}
+.filter-select{padding:11px 14px;border:1.5px solid var(--border);border-radius:9px;font-size:14px;font-family:'DM Sans',sans-serif;background:white;cursor:pointer;outline:none;}
+.filter-btn{padding:11px 18px;border:none;border-radius:9px;background:var(--blue);color:white;font-size:14px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;}
+
+.toolbar{font-size:14px;color:var(--text-muted);margin-bottom:20px;}
+.prod-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.prod-card{background:white;border-radius:12px;border:1.5px solid var(--border);overflow:hidden;transition:all .3s;}
+.prod-card:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(0,87,168,.12);border-color:var(--blue);}
+.prod-img{aspect-ratio:4/3;overflow:hidden;background:var(--off-white);position:relative;}
+.prod-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s;}
+.prod-card:hover .prod-img img{transform:scale(1.05);}
+.prod-badge-wrap{position:absolute;top:12px;left:12px;}
+.prod-badge{font-size:10px;font-weight:700;letter-spacing:.5px;padding:4px 10px;border-radius:6px;text-transform:uppercase;}
+.badge-new{background:var(--teal);color:white;}
+.badge-reg{background:var(--blue);color:white;}
+.badge-hot{background:#f59e0b;color:white;}
+.prod-info{padding:18px 20px;}
+.prod-cat{font-size:11px;color:var(--teal);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;font-weight:600;}
+.prod-name{font-size:15px;font-weight:600;margin-bottom:4px;line-height:1.4;}
+.prod-sku{font-size:11px;color:var(--text-muted);margin-bottom:12px;}
+.prod-footer{display:flex;justify-content:space-between;align-items:center;}
+.prod-price{font-family:'DM Serif Display',serif;font-size:22px;color:var(--blue);}
+.prod-unit{font-size:11px;color:var(--text-muted);margin-top:2px;}
+.prod-add-btn{width:38px;height:38px;border-radius:9px;background:var(--blue);color:white;border:none;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.prod-add-btn:hover{background:var(--blue-dark);transform:scale(1.1);}
+.prod-add-btn:disabled{background:#94a3b8;cursor:not-allowed;transform:none;}
+
+/* Loading & empty states */
+.state-msg{text-align:center;padding:80px 20px;color:var(--text-muted);}
+.state-msg .icon{font-size:48px;margin-bottom:16px;}
+.state-msg h3{font-size:20px;color:var(--text);margin-bottom:8px;}
+
+/* Pagination */
+.pagination{display:flex;justify-content:center;gap:8px;margin-top:40px;}
+.page-btn{padding:9px 16px;border:1.5px solid var(--border);border-radius:8px;background:white;font-size:14px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;}
+.page-btn.active,.page-btn:hover{background:var(--blue);color:white;border-color:var(--blue);}
+.page-btn:disabled{opacity:.4;cursor:not-allowed;}
+
+footer{background:#0f1f3d;color:rgba(255,255,255,0.6);padding:40px;text-align:center;margin-top:60px;font-size:14px;}
+</style>
+</head>
+<body>
+<script src="api.js"></script>
+
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo"><div class="nav-logo-icon">🏥</div><div class="nav-logo-text">ESSENCE <span>PREMIER</span></div></a>
+    <ul class="nav-links">
+      <li><a href="catalog.html" class="active">Catalog</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="login.html" class="nav-btn-ghost nav-signin-link">Sign In</a>
+      <a href="cart.html" class="nav-btn-fill">🛒 Cart <span class="cart-count" id="cartCount">0</span></a>
+    </div>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <h1>Product Catalog</h1>
+    <p>Browse certified medical supplies for hospitals and clinics.</p>
+  </div>
+</div>
+
+<div class="catalog-wrap">
+  <div class="filters">
+    <input class="search-input" type="text" id="searchInput" placeholder="Search products or SKU…">
+    <select class="filter-select" id="categoryFilter">
+      <option value="">All Categories</option>
+      <option value="Surgical">Surgical</option>
+      <option value="Infusion &amp; IV">Infusion &amp; IV</option>
+      <option value="Diagnostic">Diagnostic</option>
+      <option value="PPE">PPE</option>
+      <option value="Lab Supplies">Lab Supplies</option>
+    </select>
+    <select class="filter-select" id="sortFilter">
+      <option value="name|asc">Name A–Z</option>
+      <option value="name|desc">Name Z–A</option>
+      <option value="price|asc">Price: Low–High</option>
+      <option value="price|desc">Price: High–Low</option>
+    </select>
+    <button class="filter-btn" onclick="loadProducts(1)">Search</button>
+  </div>
+
+  <div class="toolbar" id="toolbar">Loading products…</div>
+  <div class="prod-grid" id="prodGrid"></div>
+  <div class="pagination" id="pagination"></div>
+</div>
+
+<footer>© 2026 ESSENCE PREMIER — Africa's Trusted Medical Procurement Platform</footer>
+
+<script>
+let currentPage = 1;
+let totalPages  = 1;
+
+// Search on Enter
+document.getElementById('searchInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') loadProducts(1);
+});
+
+async function loadProducts(page = 1) {
+  currentPage = page;
+  const grid      = document.getElementById('prodGrid');
+  const toolbar   = document.getElementById('toolbar');
+  const pagEl     = document.getElementById('pagination');
+
+  grid.innerHTML    = '<div class="state-msg"><div class="icon">⏳</div><p>Loading products…</p></div>';
+  toolbar.textContent = '';
+  pagEl.innerHTML   = '';
+
+  const search   = document.getElementById('searchInput').value.trim();
+  const category = document.getElementById('categoryFilter').value;
+  const [sortBy, order] = document.getElementById('sortFilter').value.split('|');
+
+  try {
+    const data = await ProductsAPI.list({ page, pageSize: 9, category: category || undefined, search: search || undefined, sortBy, order });
+
+    toolbar.innerHTML = `Showing <strong>${(page-1)*9+1}–${Math.min(page*9, data.total)}</strong> of <strong>${data.total}</strong> certified products`;
+
+    if (!data.products.length) {
+      grid.innerHTML = `<div class="state-msg" style="grid-column:1/-1"><div class="icon">🔍</div><h3>No products found</h3><p>Try a different search term or category.</p></div>`;
+      return;
+    }
+
+    grid.innerHTML = data.products.map(p => `
+      <div class="prod-card">
+        <div class="prod-img">
+          <img src="${p.image_url || 'https://via.placeholder.com/400x300?text=Product'}" alt="${p.name}" onerror="this.src='https://via.placeholder.com/400x300?text=Product'">
+          <div class="prod-badge-wrap">${p.badge ? `<span class="prod-badge badge-new">${p.badge}</span>` : ''}</div>
+        </div>
+        <div class="prod-info">
+          <div class="prod-cat">${p.category}</div>
+          <div class="prod-name">${p.name}</div>
+          <div class="prod-sku">SKU: ${p.sku}</div>
+          <div class="prod-footer">
+            <div>
+              <div class="prod-price">$${p.price.toFixed(2)}</div>
+              <div class="prod-unit">per ${p.unit}</div>
+            </div>
+            <button class="prod-add-btn" onclick="addToCart('${p.id}','${p.name}')" ${p.stock === 0 ? 'disabled title="Out of stock"' : ''}>+</button>
+          </div>
+        </div>
+      </div>
+    `).join('');
+
+    // Pagination
+    totalPages = Math.ceil(data.total / 9);
+    if (totalPages > 1) {
+      let html = `<button class="page-btn" onclick="loadProducts(${page-1})" ${page===1?'disabled':''}>← Prev</button>`;
+      for (let i = Math.max(1,page-2); i <= Math.min(totalPages,page+2); i++) {
+        html += `<button class="page-btn ${i===page?'active':''}" onclick="loadProducts(${i})">${i}</button>`;
+      }
+      html += `<button class="page-btn" onclick="loadProducts(${page+1})" ${page===totalPages?'disabled':''}>Next →</button>`;
+      pagEl.innerHTML = html;
+    }
+
+  } catch (err) {
+    grid.innerHTML = `<div class="state-msg" style="grid-column:1/-1"><div class="icon">⚠️</div><h3>Failed to load products</h3><p>${err.message}</p></div>`;
+    toolbar.textContent = '';
+  }
+}
+
+async function addToCart(productId, productName) {
+  if (!Auth.isLoggedIn()) {
+    showToast('Please sign in to add items to your cart.', 'info');
+    setTimeout(() => window.location.href = 'login.html', 1500);
+    return;
+  }
+  try {
+    const cart = await CartAPI.add(productId, 1);
+    document.getElementById('cartCount').textContent = cart.item_count;
+    showToast(`${productName} added to cart ✓`);
+  } catch (err) {
+    showToast(err.message, 'error');
+  }
+}
+
+// Initial load
+loadProducts(1);
+</script>
+</body>
+</html>

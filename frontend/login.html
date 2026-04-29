@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign In — ESSENCE PREMIER</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --blue: #0057a8; --blue-dark: #003d7a; --blue-light: #e8f1fb;
+    --teal: #00a896; --white: #ffffff; --off-white: #f7f9fc;
+    --gray-1: #f0f4f8; --gray-3: #94a3b8;
+    --text: #0f1f3d; --text-muted: #64748b; --border: #e2e8f0;
+    --error: #dc2626;
+  }
+  body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(--text); min-height: 100vh; }
+  .auth-page { display: grid; grid-template-columns: 1fr 1fr; min-height: 100vh; }
+  .auth-left { background: linear-gradient(160deg, var(--blue-dark) 0%, var(--blue) 50%, #0073cc 100%); position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; padding: 48px 56px; }
+  .auth-left::after { content: ''; position: absolute; bottom: -100px; right: -100px; width: 500px; height: 500px; border-radius: 50%; background: rgba(0,168,150,0.15); pointer-events: none; }
+  .auth-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; position: relative; z-index: 2; }
+  .auth-logo-icon { width: 40px; height: 40px; background: rgba(255,255,255,0.15); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; border: 1px solid rgba(255,255,255,0.2); }
+  .auth-logo-text { font-family: 'DM Serif Display', serif; font-size: 22px; color: white; }
+  .auth-logo-text span { color: var(--teal); }
+  .auth-hero { position: relative; z-index: 2; }
+  .auth-hero h2 { font-family: 'DM Serif Display', serif; font-size: clamp(36px, 4vw, 52px); color: white; line-height: 1.1; margin-bottom: 20px; letter-spacing: -0.5px; }
+  .auth-hero h2 em { font-style: italic; color: rgba(255,255,255,0.7); }
+  .auth-hero p { font-size: 16px; color: rgba(255,255,255,0.65); line-height: 1.75; max-width: 360px; }
+  .auth-features { position: relative; z-index: 2; }
+  .auth-feature { display: flex; gap: 14px; align-items: flex-start; padding: 16px 0; border-top: 1px solid rgba(255,255,255,0.1); }
+  .feature-icon { width: 38px; height: 38px; border-radius: 9px; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.18); display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+  .feature-text h5 { font-size: 14px; font-weight: 600; color: white; margin-bottom: 3px; }
+  .feature-text p { font-size: 12px; color: rgba(255,255,255,0.55); line-height: 1.5; }
+  .auth-right { display: flex; align-items: center; justify-content: center; padding: 60px 80px; background: var(--off-white); }
+  .auth-form-wrap { width: 100%; max-width: 440px; }
+  .auth-tabs { display: flex; background: var(--gray-1); padding: 4px; border-radius: 12px; margin-bottom: 36px; }
+  .tab-btn { flex: 1; padding: 11px; background: none; border: none; cursor: pointer; font-size: 14px; font-weight: 600; font-family: 'DM Sans', sans-serif; color: var(--text-muted); border-radius: 9px; transition: all 0.25s; }
+  .tab-btn.active { background: white; color: var(--blue); box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+  .auth-panel { display: none; }
+  .auth-panel.active { display: block; }
+  .panel-title { font-family: 'DM Serif Display', serif; font-size: 32px; margin-bottom: 6px; letter-spacing: -0.5px; }
+  .panel-sub { font-size: 14px; color: var(--text-muted); margin-bottom: 28px; line-height: 1.6; }
+  .form-group { margin-bottom: 16px; }
+  .form-label { display: block; font-size: 12px; font-weight: 600; color: var(--text-muted); letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 7px; }
+  .input-wrap { position: relative; }
+  .form-input { width: 100%; padding: 13px 14px; border: 1.5px solid var(--border); border-radius: 9px; font-size: 14px; font-family: 'DM Sans', sans-serif; color: var(--text); outline: none; transition: all 0.2s; background: white; }
+  .form-input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(0,87,168,0.08); }
+  .form-input::placeholder { color: #c0c9d6; }
+  .pw-toggle { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; font-size: 16px; color: var(--gray-3); }
+  .form-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px; }
+  .strength-bar { height: 4px; background: var(--border); border-radius: 4px; margin-top: 8px; overflow: hidden; }
+  .strength-fill { height: 100%; width: 0; border-radius: 4px; transition: width 0.3s, background 0.3s; }
+  .strength-label { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+  .form-check { display: flex; gap: 10px; font-size: 13px; color: var(--text-muted); margin-bottom: 16px; cursor: pointer; align-items: flex-start; line-height: 1.5; }
+  .form-check input { accent-color: var(--blue); flex-shrink: 0; margin-top: 2px; width: 16px; height: 16px; cursor: pointer; }
+  .form-check a { color: var(--blue); text-decoration: none; }
+  .forgot-link { display: block; text-align: right; font-size: 13px; color: var(--blue); text-decoration: none; margin-bottom: 20px; font-weight: 500; }
+  .submit-btn { width: 100%; padding: 15px; background: var(--blue); color: white; border: none; cursor: pointer; border-radius: 10px; font-size: 15px; font-weight: 600; font-family: 'DM Sans', sans-serif; transition: all 0.3s; margin-bottom: 16px; }
+  .submit-btn:hover:not(:disabled) { background: var(--blue-dark); transform: translateY(-1px); }
+  .submit-btn:disabled { opacity: 0.65; cursor: not-allowed; transform: none; }
+  .error-msg { background: #fef2f2; color: var(--error); border: 1px solid #fecaca; border-radius: 8px; padding: 11px 14px; font-size: 13px; margin-bottom: 16px; display: none; }
+  .error-msg.show { display: block; }
+  .account-types { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+  .acc-type { border: 1.5px solid var(--border); border-radius: 10px; padding: 14px 12px; cursor: pointer; text-align: center; transition: all 0.2s; background: white; }
+  .acc-type.selected { border-color: var(--blue); background: var(--blue-light); }
+  .acc-type .at-icon { font-size: 24px; margin-bottom: 6px; }
+  .acc-type .at-name { font-size: 13px; font-weight: 600; }
+  .acc-type.selected .at-name { color: var(--blue); }
+  .acc-type .at-desc { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+  .auth-trust { background: white; border: 1.5px solid var(--border); border-radius: 12px; padding: 16px 20px; margin-top: 20px; display: flex; gap: 16px; flex-wrap: wrap; }
+  .trust-pill { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text-muted); font-weight: 500; }
+</style>
+</head>
+<body>
+<script src="api.js"></script>
+
+<div class="auth-page">
+  <div class="auth-left">
+    <a href="index.html" class="auth-logo">
+      <div class="auth-logo-icon">🏥</div>
+      <span class="auth-logo-text">ESSENCE <span>PREMIER</span></span>
+    </a>
+    <div class="auth-hero">
+      <h2>Africa's Trusted<br>Medical <em>Procurement</em><br>Platform</h2>
+      <p>Thousands of hospitals and clinics rely on ESSENCE PREMIER for certified supplies, reliable delivery, and institutional-grade procurement tools.</p>
+    </div>
+    <div class="auth-features">
+      <div class="auth-feature"><div class="feature-icon">📦</div><div class="feature-text"><h5>10,000+ Certified Products</h5><p>FDA, ISO 13485, and NAFDAC cleared items across all major categories</p></div></div>
+      <div class="auth-feature"><div class="feature-icon">📄</div><div class="feature-text"><h5>Institutional Billing & Net-30</h5><p>Purchase orders, credit terms, and VAT invoices for approved facilities</p></div></div>
+      <div class="auth-feature"><div class="feature-icon">🚚</div><div class="feature-text"><h5>48-Hour Guaranteed Delivery</h5><p>Same-day dispatch with real-time tracking across 12 African countries</p></div></div>
+    </div>
+  </div>
+
+  <div class="auth-right">
+    <div class="auth-form-wrap">
+      <div class="auth-tabs">
+        <button class="tab-btn active" onclick="switchTab('login')">Sign In</button>
+        <button class="tab-btn" onclick="switchTab('signup')">Create Account</button>
+      </div>
+
+      <!-- LOGIN -->
+      <div class="auth-panel active" id="loginPanel">
+        <div class="panel-title">Welcome Back</div>
+        <div class="panel-sub">Sign in to access your orders, invoices, and procurement dashboard.</div>
+        <div class="error-msg" id="loginError"></div>
+        <div class="form-group">
+          <label class="form-label">Work Email Address</label>
+          <input class="form-input" type="email" id="loginEmail" placeholder="procurement@hospital.com">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <div class="input-wrap">
+            <input class="form-input" type="password" id="loginPw" placeholder="Your password">
+            <button class="pw-toggle" onclick="togglePw('loginPw',this)" type="button">👁</button>
+          </div>
+        </div>
+        <a href="#" class="forgot-link">Forgot password?</a>
+        <label class="form-check"><input type="checkbox"> Keep me signed in on this device</label>
+        <button class="submit-btn" id="loginBtn" onclick="handleLogin()">Sign In to Dashboard →</button>
+        <div class="auth-trust">
+          <div class="trust-pill"><span>🔒</span> Encrypted Login</div>
+          <div class="trust-pill"><span>🛡️</span> HIPAA-Aware</div>
+          <div class="trust-pill"><span>✅</span> 2FA Available</div>
+        </div>
+      </div>
+
+      <!-- SIGNUP -->
+      <div class="auth-panel" id="signupPanel">
+        <div class="panel-title">Create Account</div>
+        <div class="panel-sub">Set up your facility's procurement account. Free to create, no commitment required.</div>
+        <div class="error-msg" id="signupError"></div>
+        <div style="margin-bottom:20px">
+          <label class="form-label" style="display:block;margin-bottom:10px">Account Type</label>
+          <div class="account-types">
+            <div class="acc-type selected" onclick="selectAccType(this,'hospital')"><div class="at-icon">🏥</div><div class="at-name">Hospital / Clinic</div><div class="at-desc">Purchase for your facility</div></div>
+            <div class="acc-type" onclick="selectAccType(this,'procurement')"><div class="at-icon">🏢</div><div class="at-name">Procurement Dept</div><div class="at-desc">Multi-facility management</div></div>
+          </div>
+        </div>
+        <div class="form-2col">
+          <div class="form-group" style="margin:0"><label class="form-label">First Name</label><input class="form-input" type="text" id="signupFirst" placeholder="John"></div>
+          <div class="form-group" style="margin:0"><label class="form-label">Last Name</label><input class="form-input" type="text" id="signupLast" placeholder="Doe"></div>
+        </div>
+        <div class="form-group"><label class="form-label">Work Email</label><input class="form-input" type="email" id="signupEmail" placeholder="procurement@hospital.com"></div>
+        <div class="form-group"><label class="form-label">Facility / Organisation Name</label><input class="form-input" type="text" id="signupFacility" placeholder="St. Mary's Teaching Hospital"></div>
+        <div class="form-group"><label class="form-label">Country</label><select class="form-input" id="signupCountry"><option>Ghana</option><option>Nigeria</option><option>Kenya</option><option>Uganda</option><option>Tanzania</option><option>South Africa</option></select></div>
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <div class="input-wrap"><input class="form-input" type="password" id="signupPw" placeholder="Min. 8 characters" oninput="checkStrength(this.value)"><button class="pw-toggle" onclick="togglePw('signupPw',this)" type="button">👁</button></div>
+          <div class="strength-bar"><div class="strength-fill" id="sBar"></div></div>
+          <div class="strength-label" id="sLabel">Enter a password</div>
+        </div>
+        <label class="form-check"><input type="checkbox" id="signupTerms" checked> I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></label>
+        <button class="submit-btn" id="signupBtn" onclick="handleSignup()">Create Facility Account →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  if (Auth.isLoggedIn()) window.location.href = "index.html";
+  let selectedAccountType = "hospital";
+
+  function switchTab(t) {
+    document.querySelectorAll('.tab-btn').forEach((b,i) => b.classList.toggle('active', (t==='login'&&i===0)||(t==='signup'&&i===1)));
+    document.getElementById('loginPanel').classList.toggle('active', t==='login');
+    document.getElementById('signupPanel').classList.toggle('active', t==='signup');
+  }
+  function togglePw(id,btn){const el=document.getElementById(id);el.type=el.type==='password'?'text':'password';btn.textContent=el.type==='password'?'👁':'🙈';}
+  function checkStrength(v){let s=0;if(v.length>=8)s++;if(/[A-Z]/.test(v))s++;if(/[0-9]/.test(v))s++;if(/[^A-Za-z0-9]/.test(v))s++;const bar=document.getElementById('sBar'),label=document.getElementById('sLabel');bar.style.width=(s/4*100)+'%';const colors=['','#dc2626','#f59e0b','#16a34a','#16a34a'],labels=['','Weak','Fair','Strong','Very Strong'];bar.style.background=colors[s];label.textContent=s>0?labels[s]:'Enter a password';label.style.color=colors[s]||'var(--text-muted)';}
+  function selectAccType(el,type){document.querySelectorAll('.acc-type').forEach(a=>a.classList.remove('selected'));el.classList.add('selected');selectedAccountType=type;}
+  function showErr(id,msg){const el=document.getElementById(id);el.textContent=msg;el.classList.add('show');}
+  function hideErr(id){document.getElementById(id).classList.remove('show');}
+
+  async function handleLogin(){
+    hideErr('loginError');
+    const email=document.getElementById('loginEmail').value.trim();
+    const password=document.getElementById('loginPw').value;
+    const btn=document.getElementById('loginBtn');
+    if(!email||!password){showErr('loginError','Please fill in all fields.');return;}
+    setButtonLoading(btn,true);
+    try{
+      await AuthAPI.login(email,password);
+      showToast('Welcome back!');
+      setTimeout(()=>window.location.href='index.html',900);
+    }catch(err){
+      showErr('loginError',err.message);
+      setButtonLoading(btn,false,'Sign In to Dashboard →');
+    }
+  }
+
+  async function handleSignup(){
+    hideErr('signupError');
+    const payload={
+      email:document.getElementById('signupEmail').value.trim(),
+      password:document.getElementById('signupPw').value,
+      first_name:document.getElementById('signupFirst').value.trim(),
+      last_name:document.getElementById('signupLast').value.trim(),
+      facility_name:document.getElementById('signupFacility').value.trim(),
+      country:document.getElementById('signupCountry').value,
+      account_type:selectedAccountType,
+    };
+    const btn=document.getElementById('signupBtn');
+    if(!payload.email||!payload.password||!payload.first_name||!payload.last_name||!payload.facility_name){showErr('signupError','Please fill in all required fields.');return;}
+    if(!document.getElementById('signupTerms').checked){showErr('signupError','You must agree to the Terms of Service.');return;}
+    setButtonLoading(btn,true);
+    try{
+      await AuthAPI.signup(payload);
+      showToast('Account created! Welcome to ESSENCE PREMIER.');
+      setTimeout(()=>window.location.href='index.html',1200);
+    }catch(err){
+      showErr('signupError',err.message);
+      setButtonLoading(btn,false,'Create Facility Account →');
+    }
+  }
+</script>
+</body>
+</html>

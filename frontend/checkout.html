@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout — ESSENCE PREMIER</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{--blue:#0057a8;--blue-dark:#003d7a;--blue-light:#e8f1fb;--teal:#00a896;--teal-light:#e0f5f3;--white:#fff;--off-white:#f7f9fc;--gray-3:#94a3b8;--text:#0f1f3d;--text-muted:#64748b;--border:#e2e8f0;--success:#16a34a;}
+body{font-family:'DM Sans',sans-serif;background:var(--off-white);color:var(--text);}
+.co-nav{background:#fff;border-bottom:1px solid var(--border);padding:0 40px;height:72px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.nav-logo-icon{width:36px;height:36px;background:var(--blue);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;}
+.nav-logo-text{font-family:'DM Serif Display',serif;font-size:20px;color:var(--blue);}
+.nav-logo-text span{color:var(--teal);}
+.co-steps{display:flex;align-items:center;}
+.cs{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;}
+.cs.done{color:var(--success);}.cs.active{color:var(--blue);}.cs.pend{color:var(--gray-3);}
+.cs-n{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;}
+.cs.done .cs-n{background:var(--success);color:#fff;}
+.cs.active .cs-n{background:var(--blue);color:#fff;}
+.cs.pend .cs-n{background:var(--border);color:var(--gray-3);}
+.cs-div{width:40px;height:1px;background:var(--border);margin:0 12px;}
+.sec-badge{font-size:13px;color:var(--text-muted);display:flex;align-items:center;gap:6px;}
+.co-body{max-width:1280px;margin:0 auto;padding:32px 40px 80px;display:grid;grid-template-columns:1fr 420px;gap:28px;}
+.fb{background:#fff;border:1.5px solid var(--border);border-radius:16px;padding:28px 32px;margin-bottom:20px;}
+.fb-title{font-family:'DM Serif Display',serif;font-size:22px;margin-bottom:8px;}
+.fb-sub{font-size:13px;color:var(--text-muted);margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid var(--border);}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
+.frow.s1{grid-template-columns:1fr;}
+.frow.s3{grid-template-columns:1fr 1fr 1fr;}
+.fg{display:flex;flex-direction:column;gap:6px;}
+.fl{font-size:12px;font-weight:600;color:var(--text-muted);letter-spacing:.5px;text-transform:uppercase;}
+.fi{padding:12px 14px;border:1.5px solid var(--border);border-radius:8px;font-size:14px;font-family:'DM Sans',sans-serif;color:var(--text);outline:none;transition:border-color .2s;background:#fff;}
+.fi:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,87,168,.08);}
+.fi::placeholder{color:#c0c9d6;}
+.del-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px;}
+.del-opt{border:1.5px solid var(--border);border-radius:10px;padding:16px;cursor:pointer;transition:all .2s;position:relative;}
+.del-opt.sel{border-color:var(--blue);background:var(--blue-light);}
+.del-opt h5{font-size:14px;font-weight:600;margin-bottom:4px;}
+.del-opt p{font-size:12px;color:var(--text-muted);}
+.del-opt .dp{font-size:13px;font-weight:700;color:var(--teal);margin-top:6px;}
+.del-opt .ck{position:absolute;top:10px;right:10px;width:18px;height:18px;border-radius:50%;background:var(--blue);color:#fff;font-size:10px;display:none;align-items:center;justify-content:center;}
+.del-opt.sel .ck{display:flex;}
+.pay-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px;}
+.po{border:1.5px solid var(--border);border-radius:10px;padding:14px 10px;cursor:pointer;text-align:center;transition:all .2s;position:relative;}
+.po.sel{border-color:var(--blue);background:var(--blue-light);}
+.po .pi{font-size:22px;margin-bottom:6px;display:block;}
+.po .pn{font-size:11px;font-weight:600;color:var(--text-muted);}
+.po.sel .pn{color:var(--blue);}
+.note-ta{width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:8px;font-size:14px;font-family:'DM Sans',sans-serif;resize:vertical;min-height:80px;outline:none;}
+.note-ta:focus{border-color:var(--blue);}
+.sidebar{position:sticky;top:90px;}
+.sum-card{background:#fff;border:1.5px solid var(--border);border-radius:16px;padding:24px;margin-bottom:16px;}
+.sum-title{font-family:'DM Serif Display',serif;font-size:22px;margin-bottom:20px;}
+#coItems{margin-bottom:4px;}
+.oi{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--border);align-items:center;}
+.oi:last-child{border:none;}
+.oi-iw{position:relative;flex-shrink:0;}
+.oi-img{width:58px;height:58px;border-radius:8px;object-fit:cover;background:var(--off-white);display:block;}
+.oi-q{position:absolute;top:-6px;right:-6px;background:var(--blue);color:#fff;width:18px;height:18px;border-radius:50%;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+.oi-nm{flex:1;font-size:13px;font-weight:500;line-height:1.4;}
+.oi-pr{font-size:14px;font-weight:700;color:var(--blue);flex-shrink:0;}
+.sr{display:flex;justify-content:space-between;font-size:13px;padding:9px 0;border-bottom:1px solid var(--border);}
+.sr span:first-child{color:var(--text-muted);}
+.sr.vat{background:rgba(0,168,150,.07);border-radius:6px;padding:10px 8px;margin:4px -8px;border:none;}
+.sr.vat span{color:var(--teal)!important;font-weight:600!important;}
+.sr.tot{font-size:16px;font-weight:700;border:none;padding-top:14px;}
+.sr.tot span:last-child{color:var(--blue);font-family:'DM Serif Display',serif;font-size:22px;}
+.place-btn{display:block;width:100%;padding:18px;background:var(--blue);color:#fff;border:none;cursor:pointer;border-radius:12px;font-size:15px;font-weight:700;font-family:'DM Sans',sans-serif;transition:all .3s;text-align:center;}
+.place-btn:hover:not(:disabled){background:var(--blue-dark);transform:translateY(-2px);box-shadow:0 10px 32px rgba(0,87,168,.3);}
+.place-btn:disabled{background:var(--gray-3);cursor:not-allowed;transform:none;}
+.modal-bg{position:fixed;inset:0;background:rgba(15,31,61,.75);display:none;align-items:center;justify-content:center;z-index:9999;backdrop-filter:blur(6px);}
+.modal-bg.show{display:flex;}
+.modal{background:#fff;border-radius:20px;padding:52px 48px;max-width:520px;width:90%;text-align:center;box-shadow:0 40px 80px rgba(0,0,0,.25);animation:popIn .4s cubic-bezier(.34,1.56,.64,1);}
+@keyframes popIn{from{opacity:0;transform:scale(.88)}to{opacity:1;transform:scale(1)}}
+.m-ico{font-size:60px;margin-bottom:20px;}
+.m-ttl{font-family:'DM Serif Display',serif;font-size:36px;color:var(--blue);margin-bottom:12px;}
+.m-ref{background:var(--blue-light);color:var(--blue);font-size:13px;font-weight:700;letter-spacing:1px;padding:8px 16px;border-radius:8px;display:inline-block;margin-bottom:20px;}
+.m-txt{font-size:15px;color:var(--text-muted);line-height:1.75;margin-bottom:28px;}
+.m-det{background:var(--off-white);border-radius:12px;padding:16px 20px;margin-bottom:28px;text-align:left;}
+.mdr{display:flex;justify-content:space-between;font-size:13px;padding:8px 0;border-bottom:1px solid var(--border);}
+.mdr:last-child{border:none;}
+.mdr span:first-child{color:var(--text-muted);}
+.mdr span:last-child{font-weight:600;}
+.m-btn{display:inline-block;padding:14px 36px;background:var(--blue);color:#fff;font-size:14px;font-weight:600;text-decoration:none;border-radius:10px;font-family:'DM Sans',sans-serif;}
+</style>
+</head>
+<body>
+<script src="api.js"></script>
+
+<div class="co-nav">
+  <a href="index.html" class="nav-logo">
+    <div class="nav-logo-icon">✦</div>
+    <span class="nav-logo-text">ESSENCE <span>PREMIER</span></span>
+  </a>
+  <div class="co-steps">
+    <div class="cs done"><div class="cs-n">✓</div> Cart</div>
+    <div class="cs-div"></div>
+    <div class="cs active"><div class="cs-n">2</div> Checkout</div>
+    <div class="cs-div"></div>
+    <div class="cs pend"><div class="cs-n">3</div> Confirmation</div>
+  </div>
+  <div class="sec-badge">🔒 Secure Checkout</div>
+</div>
+
+<div class="co-body">
+  <div>
+    <!-- Delivery Address -->
+    <div class="fb">
+      <div class="fb-title">Delivery Address</div>
+      <div class="fb-sub">Where should we deliver your order?</div>
+      <div class="frow">
+        <div class="fg"><label class="fl">Full Name</label><input class="fi" id="fullName" placeholder="Dr. James Mensah"></div>
+        <div class="fg"><label class="fl">Hospital / Facility</label><input class="fi" id="hospitalName" placeholder="Korle Bu Teaching Hospital"></div>
+      </div>
+      <div class="frow s1">
+        <div class="fg"><label class="fl">Address Line 1</label><input class="fi" id="address1" placeholder="7 Ridge Road, Cantonments"></div>
+      </div>
+      <div class="frow s1">
+        <div class="fg"><label class="fl">Address Line 2 (optional)</label><input class="fi" id="address2" placeholder="Block C, Ground Floor"></div>
+      </div>
+      <div class="frow">
+        <div class="fg"><label class="fl">City</label><input class="fi" id="city" value="Accra" placeholder="Accra"></div>
+        <div class="fg"><label class="fl">Region</label><select class="fi" id="region"><option>Greater Accra</option><option>Ashanti</option><option>Central</option><option>Western</option><option>Northern</option><option>Eastern</option><option>Volta</option><option>Brong-Ahafo</option></select></div>
+      </div>
+      <div class="frow">
+        <div class="fg"><label class="fl">Country</label><select class="fi" id="country"><option>Ghana</option><option>Nigeria</option><option>Kenya</option></select></div>
+        <div class="fg"><label class="fl">Phone Number</label><input class="fi" id="phone" placeholder="+233 24 000 0000"></div>
+      </div>
+    </div>
+
+    <!-- Delivery Option -->
+    <div class="fb">
+      <div class="fb-title">Delivery Option</div>
+      <div class="fb-sub">Choose how fast you need your items.</div>
+      <div class="del-grid">
+        <div class="del-opt sel" onclick="selDel(this,'standard')"><div class="ck">✓</div><h5>Standard</h5><p>2–3 business days</p><div class="dp">Free</div></div>
+        <div class="del-opt" onclick="selDel(this,'express')"><div class="ck">✓</div><h5>Express</h5><p>Next business day</p><div class="dp">$50</div></div>
+        <div class="del-opt" onclick="selDel(this,'same_day')"><div class="ck">✓</div><h5>Same Day</h5><p>Delivered by 6 PM today</p><div class="dp">$120</div></div>
+      </div>
+    </div>
+
+    <!-- Payment -->
+    <div class="fb">
+      <div class="fb-title">Payment Method</div>
+      <div class="fb-sub">All transactions are encrypted and secure.</div>
+      <div class="pay-grid">
+        <div class="po sel" onclick="selPay(this,'card')"><span class="pi">💳</span><div class="pn">Credit / Debit Card</div></div>
+        <div class="po" onclick="selPay(this,'bank_transfer')"><span class="pi">🏦</span><div class="pn">Bank Transfer</div></div>
+        <div class="po" onclick="selPay(this,'net_30')"><span class="pi">📄</span><div class="pn">Net-30 Credit</div></div>
+        <div class="po" onclick="selPay(this,'net_60')"><span class="pi">📋</span><div class="pn">Net-60 Credit</div></div>
+        <div class="po" onclick="selPay(this,'mobile_money')"><span class="pi">📱</span><div class="pn">Mobile Money</div></div>
+      </div>
+    </div>
+
+    <!-- Notes -->
+    <div class="fb">
+      <div class="fb-title">Order Notes</div>
+      <div class="fb-sub">Special delivery instructions or procurement reference numbers.</div>
+      <textarea class="note-ta" id="notes" placeholder="e.g. PO #2026-00134 · Deliver to pharmacy store · Attention: Mr. Agyemang"></textarea>
+    </div>
+  </div>
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sum-card">
+      <div class="sum-title">Order Summary</div>
+      <div id="coItems"><div style="text-align:center;padding:20px;color:var(--text-muted)">⏳ Loading…</div></div>
+      <div class="sr"><span>Subtotal</span><span id="coSubtotal">—</span></div>
+      <div class="sr vat"><span>VAT (15%)</span><span id="coVat">—</span></div>
+      <div class="sr"><span>Delivery</span><span id="coDelivery">Free</span></div>
+      <div class="sr tot"><span>Total</span><span id="coTotal">—</span></div>
+    </div>
+    <button class="place-btn" id="placeBtn" onclick="placeOrder()">Place Order →</button>
+  </div>
+</div>
+
+<!-- SUCCESS MODAL -->
+<div class="modal-bg" id="successModal">
+  <div class="modal">
+    <div class="m-ico">✅</div>
+    <div class="m-ttl">Order Placed!</div>
+    <div class="m-ref" id="mRef">EP-XXXX-XXXX</div>
+    <p class="m-txt">Your order has been confirmed. Our team will process and dispatch it within 24 hours. You'll receive a confirmation email shortly.</p>
+    <div class="m-det">
+      <div class="mdr"><span>Total</span><span id="mTotal">—</span></div>
+      <div class="mdr"><span>Payment</span><span id="mPay">—</span></div>
+      <div class="mdr"><span>Delivery</span><span id="mDel">—</span></div>
+    </div>
+    <a href="index.html" class="m-btn">Back to Home</a>
+  </div>
+</div>
+
+<script>
+if (!Auth.isLoggedIn()) window.location.href = 'login.html';
+
+let selectedDelivery = 'standard';
+let selectedPayment  = 'card';
+let cartData         = null;
+
+const DELIVERY_FEES = { standard: 0, express: 50, same_day: 120 };
+const DELIVERY_LABELS = { standard: 'Standard (2–3 days)', express: 'Express (Next day)', same_day: 'Same Day' };
+const PAY_LABELS = { card: 'Credit/Debit Card', bank_transfer: 'Bank Transfer', net_30: 'Net-30 Credit', net_60: 'Net-60 Credit', mobile_money: 'Mobile Money' };
+
+function selDel(el, val) {
+  document.querySelectorAll('.del-opt').forEach(d => d.classList.remove('sel'));
+  el.classList.add('sel');
+  selectedDelivery = val;
+  updateTotals();
+}
+
+function selPay(el, val) {
+  document.querySelectorAll('.po').forEach(p => p.classList.remove('sel'));
+  el.classList.add('sel');
+  selectedPayment = val;
+}
+
+function updateTotals() {
+  if (!cartData) return;
+  const fee = DELIVERY_FEES[selectedDelivery] || 0;
+  const total = cartData.total + fee;
+  document.getElementById('coDelivery').textContent = fee > 0 ? `$${fee.toFixed(2)}` : 'Free';
+  document.getElementById('coTotal').textContent    = `$${total.toFixed(2)}`;
+}
+
+async function loadCart() {
+  try {
+    cartData = await CartAPI.get();
+    if (!cartData.items.length) {
+      window.location.href = 'cart.html';
+      return;
+    }
+    document.getElementById('coSubtotal').textContent = `$${cartData.subtotal.toFixed(2)}`;
+    document.getElementById('coVat').textContent      = `$${cartData.vat_amount.toFixed(2)}`;
+    document.getElementById('coTotal').textContent    = `$${cartData.total.toFixed(2)}`;
+
+    document.getElementById('coItems').innerHTML = cartData.items.map(item => `
+      <div class="oi">
+        <div class="oi-iw">
+          <img class="oi-img" src="${item.image_url||'https://via.placeholder.com/58'}" alt="${item.name}" onerror="this.src='https://via.placeholder.com/58'">
+          <div class="oi-q">${item.quantity}</div>
+        </div>
+        <div class="oi-nm">${item.name}</div>
+        <div class="oi-pr">$${item.subtotal.toFixed(2)}</div>
+      </div>
+    `).join('');
+  } catch (err) {
+    showToast(err.message, 'error');
+  }
+}
+
+async function placeOrder() {
+  // Validate required fields
+  const fullName     = document.getElementById('fullName').value.trim();
+  const hospitalName = document.getElementById('hospitalName').value.trim();
+  const address1     = document.getElementById('address1').value.trim();
+  const city         = document.getElementById('city').value.trim();
+  const phone        = document.getElementById('phone').value.trim();
+
+  if (!fullName || !hospitalName || !address1 || !city || !phone) {
+    showToast('Please fill in all required delivery fields.', 'error');
+    return;
+  }
+
+  const btn = document.getElementById('placeBtn');
+  setButtonLoading(btn, true);
+
+  const payload = {
+    delivery_address: {
+      full_name:     fullName,
+      hospital_name: hospitalName,
+      address_line1: address1,
+      address_line2: document.getElementById('address2').value.trim() || null,
+      city:          city,
+      region:        document.getElementById('region').value,
+      country:       document.getElementById('country').value,
+      phone:         phone,
+    },
+    delivery_option: selectedDelivery,
+    payment_method:  selectedPayment,
+    notes:           document.getElementById('notes').value.trim() || null,
+  };
+
+  try {
+    const order = await OrdersAPI.place(payload);
+
+    // Show success modal
+    document.getElementById('mRef').textContent   = order.reference;
+    document.getElementById('mTotal').textContent = `$${order.total.toFixed(2)}`;
+    document.getElementById('mPay').textContent   = PAY_LABELS[order.payment_method] || order.payment_method;
+    document.getElementById('mDel').textContent   = DELIVERY_LABELS[order.delivery_option] || order.delivery_option;
+    document.getElementById('successModal').classList.add('show');
+
+    // Update cart count
+    document.querySelectorAll('.cart-count, #cartCount').forEach(el => el.textContent = '0');
+
+  } catch (err) {
+    showToast(err.message, 'error');
+    setButtonLoading(btn, false, 'Place Order →');
+  }
+}
+
+loadCart();
+</script>
+</body>
+</html>

@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Us — ESSENCE PREMIER</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+--blue:#0057a8;
+--blue-dark:#003d7a;
+--blue-light:#e8f1fb;
+--teal:#00a896;
+--white:#ffffff;
+--off-white:#f7f9fc;
+--text:#0f1f3d;
+--text-muted:#64748b;
+--border:#e2e8f0;
+}
+
+body{
+font-family:'DM Sans',sans-serif;
+background:white;
+color:var(--text);
+}
+
+/* NAV */
+
+nav{
+background:white;
+border-bottom:1px solid var(--border);
+position:sticky;
+top:0;
+z-index:99;
+}
+
+.nav-inner{
+max-width:1280px;
+margin:auto;
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:0 40px;
+height:72px;
+}
+
+.nav-logo{
+display:flex;
+align-items:center;
+gap:10px;
+text-decoration:none;
+}
+
+.nav-logo-icon{
+width:36px;
+height:36px;
+background:var(--blue);
+border-radius:8px;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:16px;
+}
+
+.nav-logo-text{
+font-family:'DM Serif Display',serif;
+font-size:20px;
+color:var(--blue);
+}
+
+.nav-logo-text span{
+color:var(--teal);
+}
+
+.nav-links{
+display:flex;
+gap:8px;
+list-style:none;
+}
+
+.nav-links a{
+font-size:14px;
+font-weight:500;
+color:var(--text-muted);
+text-decoration:none;
+padding:8px 14px;
+border-radius:8px;
+}
+
+.nav-links a:hover,
+.nav-links a.active{
+background:var(--blue-light);
+color:var(--blue);
+}
+
+.nav-actions{
+display:flex;
+gap:10px;
+align-items:center;
+}
+
+.nav-btn-ghost{
+padding:9px 20px;
+border:1.5px solid var(--blue);
+color:var(--blue);
+font-size:14px;
+font-weight:600;
+text-decoration:none;
+border-radius:8px;
+}
+
+.nav-btn-fill{
+padding:9px 20px;
+background:var(--blue);
+color:white;
+font-size:14px;
+font-weight:600;
+text-decoration:none;
+border-radius:8px;
+display:flex;
+align-items:center;
+gap:6px;
+}
+
+.cart-count{
+background:var(--teal);
+color:white;
+font-size:10px;
+font-weight:700;
+width:18px;
+height:18px;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+/* HERO */
+
+.about-hero{
+background:linear-gradient(135deg,var(--blue-dark),var(--blue));
+padding:100px 40px;
+}
+
+.about-hero-inner{
+max-width:1200px;
+margin:auto;
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:60px;
+align-items:center;
+}
+
+.section-tag{
+font-size:12px;
+font-weight:600;
+letter-spacing:1.5px;
+text-transform:uppercase;
+color:var(--teal);
+margin-bottom:14px;
+}
+
+.about-hero h1{
+font-family:'DM Serif Display',serif;
+font-size:56px;
+color:white;
+line-height:1.1;
+margin-bottom:18px;
+}
+
+.about-hero p{
+color:rgba(255,255,255,0.8);
+line-height:1.8;
+font-size:16px;
+}
+
+.about-hero-img img{
+width:100%;
+border-radius:16px;
+}
+
+/* STATS */
+
+.stats-strip{
+background:var(--teal);
+padding:48px 40px;
+}
+
+.stats-inner{
+max-width:1100px;
+margin:auto;
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:30px;
+text-align:center;
+}
+
+.stat-num{
+font-family:'DM Serif Display',serif;
+font-size:48px;
+color:white;
+}
+
+.stat-label{
+color:rgba(255,255,255,0.8);
+font-size:14px;
+margin-top:6px;
+}
+
+/* ABOUT TEXT */
+
+.about-content{
+max-width:900px;
+margin:90px auto;
+padding:0 40px;
+text-align:center;
+}
+
+.about-content h2{
+font-family:'DM Serif Display',serif;
+font-size:42px;
+margin-bottom:20px;
+}
+
+.about-content p{
+color:var(--text-muted);
+line-height:1.9;
+font-size:16px;
+margin-bottom:16px;
+}
+
+/* CTA */
+
+.about-cta{
+background:linear-gradient(135deg,var(--teal),#009688);
+padding:80px 40px;
+text-align:center;
+}
+
+.about-cta h2{
+font-family:'DM Serif Display',serif;
+font-size:46px;
+color:white;
+margin-bottom:12px;
+}
+
+.about-cta p{
+color:rgba(255,255,255,0.85);
+margin-bottom:30px;
+}
+
+.cta-btn{
+display:inline-block;
+padding:16px 36px;
+background:white;
+color:var(--teal);
+font-weight:600;
+text-decoration:none;
+border-radius:8px;
+margin:0 6px;
+}
+
+.cta-btn-outline{
+display:inline-block;
+padding:15px 36px;
+border:2px solid white;
+color:white;
+text-decoration:none;
+border-radius:8px;
+margin:0 6px;
+}
+
+/* FOOTER */
+
+footer{
+background:var(--text);
+color:rgba(255,255,255,0.6);
+padding:40px;
+text-align:center;
+font-size:13px;
+}
+
+footer a{
+color:var(--teal);
+text-decoration:none;
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+<div class="nav-inner">
+
+<a href="index.html" class="nav-logo">
+<div class="nav-logo-icon">🏥</div>
+<span class="nav-logo-text">ESSENCE <span>PREMIER</span></span>
+</a>
+
+<ul class="nav-links">
+<li><a href="catalog.html">Catalog</a></li>
+<li><a href="about.html" class="active">About</a></li>
+<li><a href="#">Contact</a></li>
+</ul>
+
+<div class="nav-actions">
+<a href="login.html" class="nav-btn-ghost">Sign In</a>
+<a href="cart.html" class="nav-btn-fill">Cart <span class="cart-count">3</span></a>
+</div>
+
+</div>
+</nav>
+
+<section class="about-hero">
+
+<div class="about-hero-inner">
+
+<div>
+
+<div class="section-tag">About ESSENCE PREMIER</div>
+
+<h1>Reliable Medical<br>Supplies for<br>Healthcare Facilities</h1>
+
+<p>
+ESSENCE PREMIER is a medical procurement platform based in Accra, Ghana.
+We help hospitals and clinics access certified medical supplies quickly,
+reliably, and at fair prices.
+</p>
+
+<p>
+Our platform simplifies healthcare procurement by connecting medical
+facilities with trusted suppliers, ensuring that essential equipment
+and consumables are always available when needed.
+</p>
+
+</div>
+
+<div class="about-hero-img">
+<img src="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=900&q=80">
+</div>
+
+</div>
+
+</section>
+
+<div class="stats-strip">
+
+<div class="stats-inner">
+
+<div>
+<div class="stat-num">50+</div>
+<div class="stat-label">Hospitals & Clinics</div>
+</div>
+
+<div>
+<div class="stat-num">2K</div>
+<div class="stat-label">Products Available</div>
+</div>
+
+<div>
+<div class="stat-num">99.6%</div>
+<div class="stat-label">Order Fulfillment</div>
+</div>
+
+<div>
+<div class="stat-num">48hr</div>
+<div class="stat-label">Average Delivery</div>
+</div>
+
+</div>
+
+</div>
+
+<section class="about-content">
+
+<h2>Our Story</h2>
+
+<p>
+ESSENCE PREMIER was created to solve one of the biggest challenges in healthcare
+procurement — reliable access to medical supplies. Many hospitals and clinics
+struggle with inconsistent supply chains, delayed deliveries, and limited
+access to verified products.
+</p>
+
+<p>
+Based in Accra, Ghana, ESSENCE PREMIER provides a centralized platform where
+healthcare facilities can order trusted medical equipment, consumables,
+and hospital essentials from a catalog of over 2,000 products.
+</p>
+
+<p>
+Today, we support more than 50 hospitals and clinics by ensuring fast,
+transparent, and dependable medical supply delivery.
+</p>
+
+</section>
+
+<div class="about-cta">
+
+<h2>Partner With Us</h2>
+
+<p>Join 50+ healthcare facilities already using ESSENCE PREMIER.</p>
+
+<a href="catalog.html" class="cta-btn">Browse Catalog</a>
+<a href="login.html" class="cta-btn-outline">Create Account</a>
+
+</div>
+
+<footer>
+
+© 2025 ESSENCE PREMIER ·
+<a href="index.html">Home</a> ·
+<a href="catalog.html">Catalog</a> ·
+<a href="cart.html">Cart</a>
+
+</footer>
+
+</body>
+</html>

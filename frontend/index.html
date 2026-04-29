@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ESSENCE PREMIER — Medical Procurement for Hospitals & Clinics</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --blue: #0057a8;
+    --blue-dark: #003d7a;
+    --blue-light: #e8f1fb;
+    --teal: #00a896;
+    --teal-light: #e0f5f3;
+    --white: #ffffff;
+    --off-white: #f7f9fc;
+    --gray-1: #f0f4f8;
+    --gray-2: #e2e8f0;
+    --gray-3: #94a3b8;
+    --text: #0f1f3d;
+    --text-muted: #64748b;
+    --border: #e2e8f0;
+    --shadow: 0 4px 24px rgba(0,87,168,0.08);
+    --shadow-lg: 0 16px 48px rgba(0,87,168,0.14);
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(--text); overflow-x: hidden; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 999;
+    background: rgba(255,255,255,0.97);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+  .nav-inner {
+    max-width: 1280px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 40px; height: 72px;
+  }
+  .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .nav-logo-icon {
+    width: 38px; height: 38px; background: var(--blue);
+    border-radius: 8px; display: flex; align-items: center;
+    justify-content: center; font-size: 18px;
+  }
+  .nav-logo-text { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--blue); letter-spacing: -0.3px; }
+  .nav-logo-text span { color: var(--teal); }
+  .nav-links { display: flex; gap: 8px; list-style: none; }
+  .nav-links a {
+    font-size: 14px; font-weight: 500; color: var(--text-muted);
+    text-decoration: none; padding: 8px 14px; border-radius: 8px;
+    transition: all 0.2s;
+  }
+  .nav-links a:hover { background: var(--blue-light); color: var(--blue); }
+  .nav-actions { display: flex; gap: 10px; align-items: center; }
+  .nav-btn-ghost {
+    padding: 9px 20px; border: 1.5px solid var(--blue);
+    color: var(--blue); font-size: 14px; font-weight: 600;
+    text-decoration: none; border-radius: 8px; transition: all 0.2s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .nav-btn-ghost:hover { background: var(--blue-light); }
+  .nav-btn-fill {
+    padding: 9px 20px; background: var(--blue);
+    color: white; font-size: 14px; font-weight: 600;
+    text-decoration: none; border-radius: 8px; transition: all 0.2s;
+    display: flex; align-items: center; gap: 6px;
+    font-family: 'DM Sans', sans-serif; border: none; cursor: pointer;
+  }
+  .nav-btn-fill:hover { background: var(--blue-dark); transform: translateY(-1px); }
+  .cart-count {
+    background: var(--teal); color: white;
+    font-size: 10px; font-weight: 700;
+    width: 18px; height: 18px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid; grid-template-columns: 1fr 1fr;
+    padding-top: 72px; overflow: hidden;
+  }
+  .hero-left {
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 80px 60px 80px 100px;
+    background: linear-gradient(135deg, #f7f9fc 0%, #e8f1fb 100%);
+    position: relative;
+  }
+  .hero-left::before {
+    content: '';
+    position: absolute; top: -80px; left: -80px;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(0,168,150,0.12) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--teal-light); color: var(--teal);
+    font-size: 12px; font-weight: 600; letter-spacing: 0.5px;
+    padding: 6px 14px; border-radius: 100px;
+    margin-bottom: 28px; width: fit-content;
+    text-transform: uppercase;
+  }
+  .hero-badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--teal); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.4)} }
+  .hero-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(44px, 5vw, 68px);
+    line-height: 1.08; color: var(--text);
+    margin-bottom: 24px; letter-spacing: -1px;
+  }
+  .hero-title em { font-style: italic; color: var(--blue); }
+  .hero-desc {
+    font-size: 17px; color: var(--text-muted); line-height: 1.75;
+    margin-bottom: 40px; max-width: 460px;
+  }
+  .hero-cta { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 56px; }
+  .btn-primary {
+    padding: 16px 36px; background: var(--blue); color: white;
+    font-size: 15px; font-weight: 600; text-decoration: none;
+    border-radius: 10px; transition: all 0.3s; display: inline-flex;
+    align-items: center; gap: 8px; border: none; cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .btn-primary:hover { background: var(--blue-dark); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,87,168,0.3); }
+  .btn-secondary {
+    padding: 16px 36px; background: white; color: var(--blue);
+    font-size: 15px; font-weight: 600; text-decoration: none;
+    border-radius: 10px; transition: all 0.3s; display: inline-flex;
+    align-items: center; gap: 8px; border: 1.5px solid var(--border);
+    font-family: 'DM Sans', sans-serif; cursor: pointer;
+  }
+  .btn-secondary:hover { border-color: var(--blue); background: var(--blue-light); }
+  .hero-stats { display: flex; gap: 40px; }
+  .hero-stat { }
+  .hero-stat-num { font-family: 'DM Serif Display', serif; font-size: 32px; color: var(--blue); }
+  .hero-stat-label { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
+
+  .hero-right {
+    position: relative; overflow: hidden; background: var(--blue-dark);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .hero-right img {
+    width: 100%; height: 100%; object-fit: cover; opacity: 0.7;
+    mix-blend-mode: luminosity;
+  }
+  .hero-right-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(0,57,122,0.6) 0%, rgba(0,168,150,0.3) 100%);
+  }
+  .hero-floating-card {
+    position: absolute; bottom: 40px; left: 40px; right: 40px;
+    background: rgba(255,255,255,0.12);
+    backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 16px; padding: 20px 24px;
+    display: flex; gap: 16px; align-items: center;
+  }
+  .hfc-icon { font-size: 28px; flex-shrink: 0; }
+  .hfc-text h4 { font-size: 14px; font-weight: 600; color: white; margin-bottom: 4px; }
+  .hfc-text p { font-size: 12px; color: rgba(255,255,255,0.7); }
+  .hfc-badge {
+    margin-left: auto; background: var(--teal);
+    color: white; font-size: 11px; font-weight: 700;
+    padding: 4px 10px; border-radius: 6px; white-space: nowrap;
+  }
+
+  /* TICKER */
+  .ticker {
+    background: var(--blue); padding: 14px 0; overflow: hidden;
+  }
+  .ticker-track {
+    display: inline-flex; gap: 60px; white-space: nowrap;
+    animation: ticker 24s linear infinite;
+    font-size: 12px; font-weight: 600; letter-spacing: 1.5px;
+    text-transform: uppercase; color: rgba(255,255,255,0.85);
+  }
+  .ticker-track span { color: var(--teal); }
+  @keyframes ticker { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+  /* SECTION */
+  .section { padding: 96px 40px; max-width: 1280px; margin: 0 auto; }
+  .section-tag {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 12px; font-weight: 600; letter-spacing: 1.5px;
+    text-transform: uppercase; color: var(--blue);
+    margin-bottom: 16px;
+  }
+  .section-tag::before { content:''; width:24px; height:2px; background:var(--blue); border-radius:2px; }
+  .section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(32px, 4vw, 52px); line-height: 1.1;
+    letter-spacing: -0.5px; margin-bottom: 16px;
+  }
+  .section-desc { font-size: 16px; color: var(--text-muted); line-height: 1.75; max-width: 560px; }
+
+  /* CATEGORIES */
+  .categories-bg { background: var(--off-white); }
+  .cats-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 20px; margin-top: 52px;
+  }
+  .cat-card {
+    background: white; border-radius: 16px;
+    padding: 32px 24px; border: 1.5px solid var(--border);
+    text-decoration: none; color: inherit;
+    transition: all 0.3s; position: relative; overflow: hidden;
+  }
+  .cat-card::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(135deg, var(--blue-light), transparent);
+    opacity: 0; transition: opacity 0.3s;
+  }
+  .cat-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--blue); }
+  .cat-card:hover::before { opacity: 1; }
+  .cat-icon {
+    width: 56px; height: 56px; border-radius: 14px;
+    background: var(--blue-light); display: flex;
+    align-items: center; justify-content: center;
+    font-size: 26px; margin-bottom: 20px;
+    position: relative; z-index: 1;
+  }
+  .cat-card h3 { font-size: 17px; font-weight: 600; margin-bottom: 8px; position: relative; z-index: 1; }
+  .cat-card p { font-size: 13px; color: var(--text-muted); line-height: 1.6; margin-bottom: 16px; position: relative; z-index: 1; }
+  .cat-count { font-size: 12px; font-weight: 600; color: var(--blue); position: relative; z-index: 1; }
+
+  /* FEATURED PRODUCTS */
+  .products-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 24px; margin-top: 52px;
+  }
+  .prod-card {
+    background: white; border-radius: 16px;
+    border: 1.5px solid var(--border); overflow: hidden;
+    transition: all 0.3s; text-decoration: none; color: inherit;
+    display: block;
+  }
+  .prod-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--blue); }
+  .prod-img { aspect-ratio: 4/3; overflow: hidden; background: var(--gray-1); position: relative; }
+  .prod-img img { width:100%; height:100%; object-fit:cover; transition: transform 0.5s; }
+  .prod-card:hover .prod-img img { transform: scale(1.06); }
+  .prod-badge-wrap { position: absolute; top: 14px; left: 14px; display: flex; gap: 6px; }
+  .prod-badge {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.5px;
+    padding: 4px 10px; border-radius: 6px;
+    text-transform: uppercase;
+  }
+  .badge-new { background: var(--teal); color: white; }
+  .badge-sale { background: #f59e0b; color: white; }
+  .badge-reg { background: var(--blue); color: white; }
+  .prod-info { padding: 20px 24px; }
+  .prod-cat { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--teal); margin-bottom: 6px; }
+  .prod-name { font-size: 16px; font-weight: 600; margin-bottom: 6px; line-height: 1.4; }
+  .prod-sku { font-size: 11px; color: var(--gray-3); margin-bottom: 14px; }
+  .prod-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 16px; }
+  .prod-price { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--blue); }
+  .prod-price-sub { font-size: 11px; color: var(--text-muted); font-family: 'DM Sans', sans-serif; }
+  .prod-add {
+    width: 40px; height: 40px; border-radius: 10px;
+    background: var(--blue); color: white;
+    border: none; cursor: pointer; font-size: 20px;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+  }
+  .prod-add:hover { background: var(--blue-dark); transform: scale(1.1); }
+
+  /* HOW IT WORKS */
+  .how-bg { background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue) 100%); }
+  .how-section { max-width: 1280px; margin: 0 auto; padding: 96px 40px; }
+  .how-section .section-tag { color: rgba(255,255,255,0.7); }
+  .how-section .section-tag::before { background: rgba(255,255,255,0.4); }
+  .how-section .section-title { color: white; }
+  .how-section .section-desc { color: rgba(255,255,255,0.7); }
+  .steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 52px; position: relative; }
+  .steps-grid::before {
+    content: ''; position: absolute;
+    top: 36px; left: calc(12.5% + 20px); right: calc(12.5% + 20px);
+    height: 1px; background: rgba(255,255,255,0.2);
+  }
+  .step-card { text-align: center; }
+  .step-num {
+    width: 72px; height: 72px; border-radius: 50%;
+    background: rgba(255,255,255,0.12); border: 1.5px solid rgba(255,255,255,0.25);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'DM Serif Display', serif; font-size: 28px; color: white;
+    margin: 0 auto 24px; position: relative; z-index: 1;
+    font-style: italic;
+  }
+  .step-icon { font-size: 24px; margin-bottom: 16px; }
+  .step-card h4 { font-size: 16px; font-weight: 600; color: white; margin-bottom: 10px; }
+  .step-card p { font-size: 13px; color: rgba(255,255,255,0.65); line-height: 1.7; }
+
+  /* TRUST */
+  .trust-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 52px; }
+  .trust-card {
+    background: var(--off-white); border-radius: 16px; padding: 32px 24px;
+    border: 1.5px solid var(--border); text-align: center;
+  }
+  .trust-icon { font-size: 36px; margin-bottom: 16px; }
+  .trust-card h4 { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
+  .trust-card p { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+
+  /* TESTIMONIAL */
+  .testimonials-bg { background: var(--off-white); }
+  .test-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 52px; }
+  .test-card {
+    background: white; border-radius: 16px; padding: 32px;
+    border: 1.5px solid var(--border);
+  }
+  .test-stars { color: #f59e0b; font-size: 14px; margin-bottom: 14px; letter-spacing: 2px; }
+  .test-card blockquote {
+    font-size: 15px; color: var(--text); line-height: 1.75;
+    margin-bottom: 20px; font-style: italic;
+  }
+  .test-author { display: flex; align-items: center; gap: 12px; }
+  .test-avatar {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: var(--blue-light); display: flex;
+    align-items: center; justify-content: center;
+    font-size: 18px;
+  }
+  .test-name { font-size: 14px; font-weight: 600; }
+  .test-role { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+  /* CTA STRIP */
+  .cta-strip {
+    background: var(--teal); padding: 80px 40px;
+    text-align: center;
+  }
+  .cta-strip h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 48px; color: white; margin-bottom: 16px; letter-spacing: -0.5px;
+  }
+  .cta-strip p { font-size: 16px; color: rgba(255,255,255,0.8); margin-bottom: 36px; }
+  .cta-btns { display: flex; gap: 14px; justify-content: center; }
+  .btn-white {
+    padding: 16px 36px; background: white; color: var(--teal);
+    font-size: 15px; font-weight: 600; text-decoration: none;
+    border-radius: 10px; transition: all 0.3s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.15); }
+  .btn-outline-white {
+    padding: 16px 36px; border: 2px solid rgba(255,255,255,0.6);
+    color: white; font-size: 15px; font-weight: 600;
+    text-decoration: none; border-radius: 10px; transition: all 0.3s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .btn-outline-white:hover { border-color: white; background: rgba(255,255,255,0.1); }
+
+  /* FOOTER */
+  footer { background: var(--text); color: white; padding: 64px 40px 32px; }
+  .footer-inner { max-width: 1280px; margin: 0 auto; }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 60px; margin-bottom: 48px; }
+  .footer-brand p { font-size: 14px; color: rgba(255,255,255,0.5); line-height: 1.75; margin-top: 16px; max-width: 280px; }
+  .footer-col h4 { font-size: 13px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-bottom: 20px; }
+  .footer-col ul { list-style: none; }
+  .footer-col ul li { margin-bottom: 10px; }
+  .footer-col ul li a { font-size: 14px; color: rgba(255,255,255,0.75); text-decoration: none; transition: color 0.2s; }
+  .footer-col ul li a:hover { color: var(--teal); }
+  .footer-bottom {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-top: 28px; border-top: 1px solid rgba(255,255,255,0.1);
+    font-size: 13px; color: rgba(255,255,255,0.4);
+  }
+  .footer-bottom a { color: var(--teal); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-icon">🏥</div>
+      <span class="nav-logo-text">ESSENCE <span>PREMIER</span></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="catalog.html">Catalog</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="catalog.html">Solutions</a></li>
+      <li><a href="about.html">Contact</a></li>
+      <li><a href="dashboard.html">Admin Dashboard</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="login.html" class="nav-btn-ghost">Sign In</a>
+      <a href="cart.html" class="nav-btn-fill">🛒 Cart <span class="cart-count">3</span></a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-badge">Trusted by 50+ Facilities</div>
+    <h1 class="hero-title">Medical Supplies,<br><em>Delivered Fast</em><br>& Reliably</h1>
+    <p class="hero-desc">One platform to procure all your hospital and clinic essentials — surgical, diagnostic, PPE, and more. FDA-cleared. Same-day dispatch available in Accra, Ghana.</p>
+    <div class="hero-cta">
+      <a href="catalog.html" class="btn-primary">Browse Catalog →</a>
+      <a href="login.html" class="btn-secondary">Request Account</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-num">2K</div>
+        <div class="hero-stat-label">Products Available</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">48hr</div>
+        <div class="hero-stat-label">Average Delivery</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">99.6%</div>
+        <div class="hero-stat-label">Fulfillment Rate</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <img src="images/hero-medical.jpg" alt="Medical supplies Accra">
+    <div class="hero-right-overlay"></div>
+    <div class="hero-floating-card">
+      <div class="hfc-text">
+        <h4>Order #EP-2026-001 Shipped</h4>
+        <p>Korle Bu Teaching Hospital — 48 items · Surgical gloves, IV sets, syringes</p>
+      </div>
+      <div class="hfc-badge">Delivered</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-track">
+    <span>●</span> FDA Cleared Products &nbsp;
+    <span>●</span> ISO 13485 Certified &nbsp;
+    <span>●</span> Same-Day Dispatch &nbsp;
+    <span>●</span> Cold Chain Logistics &nbsp;
+    <span>●</span> Bulk Order Discounts &nbsp;
+    <span>●</span> 24/7 Support &nbsp;
+    <span>●</span> Net-30 Payment Terms &nbsp;
+    <span>●</span> FDA Cleared Products &nbsp;
+    <span>●</span> ISO 13485 Certified &nbsp;
+    <span>●</span> Same-Day Dispatch &nbsp;
+    <span>●</span> Cold Chain Logistics &nbsp;
+    <span>●</span> Bulk Order Discounts &nbsp;
+    <span>●</span> 24/7 Support &nbsp;
+    <span>●</span> Net-30 Payment Terms &nbsp;
+  </div>
+</div>
+
+<!-- CATEGORIES -->
+<div class="categories-bg">
+  <div class="section">
+    <div class="section-tag">Product Categories</div>
+    <h2 class="section-title">Everything Your<br>Facility Needs</h2>
+    <p class="section-desc">From surgical consumables to diagnostic equipment — sourced from certified manufacturers worldwide.</p>
+    <div class="cats-grid">
+      <a href="catalog.html" class="cat-card">
+        <div class="cat-icon">🧤</div>
+        <h3>Surgical Supplies</h3>
+        <p>Gloves, drapes, gowns, sutures, and sterile consumables for OR use.</p>
+        <div class="cat-count">2,400+ products →</div>
+      </a>
+      <a href="catalog.html" class="cat-card">
+        <div class="cat-icon">💉</div>
+        <h3>Infusion & IV</h3>
+        <p>IV sets, catheters, infusion pumps, and access devices.</p>
+        <div class="cat-count">1,800+ products →</div>
+      </a>
+      <a href="catalog.html" class="cat-card">
+        <div class="cat-icon">🩺</div>
+        <h3>Diagnostic Tools</h3>
+        <p>Stethoscopes, BP monitors, pulse oximeters, thermometers.</p>
+        <div class="cat-count">950+ products →</div>
+      </a>
+      <a href="catalog.html" class="cat-card">
+        <div class="cat-icon">😷</div>
+        <h3>PPE & Protection</h3>
+        <p>N95 masks, face shields, protective suits, and hygiene supplies.</p>
+        <div class="cat-count">1,200+ products →</div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- FEATURED PRODUCTS -->
+<div class="section">
+  <div class="section-tag">Top Sellers</div>
+  <h2 class="section-title">Most Ordered<br>This Month</h2>
+  <p class="section-desc">High-volume staples used daily across hospitals and clinics in Accra.</p>
+  <div class="products-grid">
+    <a href="checkout.html" class="prod-card">
+      <div class="prod-img">
+        <img src="images/product1.jpg" alt="Surgical Gloves">
+        <div class="prod-badge-wrap"><span class="prod-badge badge-new">Bestseller</span></div>
+      </div>
+      <div class="prod-info">
+        <div class="prod-cat">Surgical</div>
+        <div class="prod-name">Sterile Latex Surgical Gloves — Box of 50 Pairs</div>
+        <div class="prod-sku">SKU: EP-SG-7842</div>
+        <div class="prod-footer">
+          <div>
+            <div class="prod-price">$48.00</div>
+            <div class="prod-price-sub">per box · min. 10 boxes</div>
+          </div>
+          <button class="prod-add" onclick="event.preventDefault()">+</button>
+        </div>
+      </div>
+    </a>
+
+    <a href="checkout.html" class="prod-card">
+      <div class="prod-img">
+        <img src="images/product2.jpg" alt="IV Set">
+        <div class="prod-badge-wrap"><span class="prod-badge badge-reg">Certified</span></div>
+      </div>
+      <div class="prod-info">
+        <div class="prod-cat">Infusion & IV</div>
+        <div class="prod-name">Disposable IV Infusion Set with Filter — Pack of 100</div>
+        <div class="prod-sku">SKU: EP-IV-2291</div>
+        <div class="prod-footer">
+          <div>
+            <div class="prod-price">$120.00</div>
+            <div class="prod-price-sub">per pack · bulk pricing available</div>
+          </div>
+          <button class="prod-add" onclick="event.preventDefault()">+</button>
+        </div>
+      </div>
+    </a>
+  </div>
+</div>
+
+
+<!-- HOW IT WORKS -->
+<div class="how-bg">
+  <div class="how-section">
+    <div class="section-tag">How It Works</div>
+    <h2 class="section-title">Simple Procurement,<br>Every Time</h2>
+    <p class="section-desc">Designed specifically for procurement officers and hospital administrators.</p>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-num"><em>1</em></div>
+        <div class="step-icon">📋</div>
+        <h4>Browse & Select</h4>
+        <p>Search 10,000+ certified products by category, brand, or SKU code.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num"><em>2</em></div>
+        <div class="step-icon">🛒</div>
+        <h4>Build Your Order</h4>
+        <p>Add items to cart, apply bulk discounts, and generate purchase orders instantly.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num"><em>3</em></div>
+        <div class="step-icon">💳</div>
+        <h4>Approve & Pay</h4>
+        <p>Pay via card, bank transfer, or Net-30 credit terms for approved facilities.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num"><em>4</em></div>
+        <div class="step-icon">🚚</div>
+        <h4>Delivered to You</h4>
+        <p>Track your order in real-time. Most deliveries arrive within 24–48 hours.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TRUST -->
+<div class="section">
+  <div class="section-tag">Why Choose Us</div>
+  <h2 class="section-title">Built for<br>Healthcare Facilities</h2>
+  <div class="trust-grid">
+    <div class="trust-card">
+      <div class="trust-icon">✅</div>
+      <h4>FDA & ISO Certified</h4>
+      <p>Every product on our platform meets strict regulatory standards. Full documentation provided.</p>
+    </div>
+    <div class="trust-card">
+      <div class="trust-icon">❄️</div>
+      <h4>Cold Chain Delivery</h4>
+      <p>Temperature-sensitive items shipped in validated cold chain packaging.</p>
+    </div>
+    <div class="trust-card">
+      <div class="trust-icon">📄</div>
+      <h4>Purchase Orders</h4>
+      <p>Generate POs instantly. Net-30 and Net-60 terms for verified institutions.</p>
+    </div>
+    <div class="trust-card">
+      <div class="trust-icon">🔔</div>
+      <h4>Inventory Alerts</h4>
+      <p>Set par-level alerts and get notified before you run out of critical supplies.</p>
+    </div>
+  </div>
+</div>
+
+<!-- TESTIMONIALS -->
+<div class="testimonials-bg">
+  <div class="section">
+    <div class="section-tag">Testimonials</div>
+    <h2 class="section-title">Trusted Across<br>500+ Facilities</h2>
+    <div class="test-grid">
+      <div class="test-card">
+        <div class="test-stars">★★★★★</div>
+        <blockquote>"ESSENCE PREMIER has transformed how we manage procurement. Deliveries are always on time and the documentation is flawless."</blockquote>
+        <div class="test-author">
+          <div class="test-avatar"></div>
+          <div>
+            <div class="test-name">Dr. James Owusu</div>
+            <div class="test-role">CMO, Korle Bu Teaching Hospital</div>
+          </div>
+        </div>
+      </div>
+      <div class="test-card">
+        <div class="test-stars">★★★★★</div>
+        <blockquote>"The bulk pricing and Net-30 terms make budgeting easy. Our supply chain has never been this predictable."</blockquote>
+        <div class="test-author">
+          <div class="test-avatar"></div>
+          <div>
+            <div class="test-name">Sarah Mensah</div>
+            <div class="test-role">Procurement Director, MedClinics Group</div>
+          </div>
+        </div>
+      </div>
+      <div class="test-card">
+        <div class="test-stars">★★★★★</div>
+        <blockquote>"Switching to ESSENCE PREMIER saved us 22% on annual procurement costs. The catalog depth is unmatched."</blockquote>
+        <div class="test-author">
+          <div class="test-avatar"></div>
+          <div>
+            <div class="test-name">Kwame Asante</div>
+            <div class="test-role">Supply Chain Manager, Accra Specialist Hospital</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-strip">
+  <h2>Start Ordering Today</h2>
+  <p>Join 500+ hospitals and clinics already saving time and money with ESSENCE PREMIER.</p>
+  <div class="cta-btns">
+    <a href="login.html" class="btn-white">Create Free Account</a>
+    <a href="catalog.html" class="btn-outline-white">Browse Catalog</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div style="display:flex;align-items:center;gap:10px">
+          <div style="background:var(--blue);width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px">🏥</div>
+          <span style="font-family:'DM Serif Display',serif;font-size:20px;color:white">ESSENCE <span style="color:var(--teal)">PREMIER</span></span>
+        </div>
+        <p>ESSENCE PREMIER — Africa's most trusted medical procurement platform. Supplying hospitals and clinics with certified, quality medical materials since 2015.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="catalog.html">Surgical Supplies</a></li>
+          <li><a href="catalog.html">Infusion & IV</a></li>
+          <li><a href="catalog.html">Diagnostics</a></li>
+          <li><a href="catalog.html">PPE & Protection</a></li>
+          <li><a href="catalog.html">Lab Supplies</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="about.html">Meet the Team</a></li>
+          <li><a href="#">Certifications</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Press</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Support</h4>
+        <ul>
+          <li><a href="#">Help Center</a></li>
+          <li><a href="#">Shipping Policy</a></li>
+          <li><a href="#">Returns</a></li>
+          <li><a href="#">Compliance Docs</a></li>
+          <li><a href="login.html">My Account</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 ESSENCE PREMIER. All rights reserved. Registered Medical Device Distributor.</span>
+      <span><a href="#">Privacy</a> · <a href="#">Terms</a> · <a href="#">Compliance</a></span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
